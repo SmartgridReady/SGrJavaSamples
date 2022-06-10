@@ -2,7 +2,6 @@ package ch.smartgridready.communicator.example;
 
 
 import ch.smartgridready.sgr.ns.v0.SGrModbusDeviceDescriptionType;
-import static ch.smartgridready.sgr.ns.v0.SubProfileTypeEnumType.ACTIVE_ENER_BALANCE_AC;
 import communicator.helper.DeviceDescriptionLoader;
 import communicator.helper.GenDriverAPI4Modbus;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
@@ -28,7 +27,7 @@ public class SampleCommunicator {
 			try {
 				
 				mbRTU.setUnitIdentifier((byte) 11);
-				String Val1 = sgcpDevice.getVal(ACTIVE_ENER_BALANCE_AC.getName(), "ActiveImportAC");
+				String Val1 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveImportAC");
 				String Val2 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveExportAC");
 				String Val3 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveNetAC");
 				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + " %n");

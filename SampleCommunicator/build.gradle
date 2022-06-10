@@ -33,8 +33,6 @@ java {
 dependencies {
 
 	implementation group: 'ch.smartgridready', name: 'commhandler4modbus', version: '0.2.1'
-	// implementation group: 'ch.smartgridready', name: 'ei4modbus', version: '1.0'
-	implementation fileTree(dir: '../InterfaceFactory/testJavaCommunicator/src/', include: '*.jar')  // includes EasyModbusJava.jar
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
