@@ -2,11 +2,11 @@ package ch.smartgridready.communicator.example;
 
 
 import ch.smartgridready.sgr.ns.v0.SGrModbusDeviceDescriptionType;
+import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
-import communicator.helper.GenDriverAPI4Modbus;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.helper.GenDriverAPI4ModbusTCP;
 import communicator.impl.SGrModbusDevice;
+import de.re.easymodbus.adapter.GenDriverAPI4ModbusTCP;
 
 public class SampleCommunicator {
 	
@@ -20,7 +20,7 @@ public class SampleCommunicator {
 			SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "betaModbusABBMeterV0.1.2.xml");
 			
 			GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTUMock();
-			GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();	
+			GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();
 			
 			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTU );
 						
