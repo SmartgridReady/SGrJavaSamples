@@ -1,7 +1,7 @@
 package ch.smartgridready.communicator.example;
 
 
-import ch.smartgridready.sgr.ns.v0.SGrModbusDeviceDescriptionType;
+import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
 import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
