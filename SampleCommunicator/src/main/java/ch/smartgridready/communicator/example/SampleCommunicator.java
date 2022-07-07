@@ -26,7 +26,9 @@ import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.smartgridready.sgr.ns.v0.SGrModbusDeviceDescriptionType;
+import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
+
+import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
 import communicator.impl.SGrModbusDevice;
@@ -111,8 +113,6 @@ public class SampleCommunicator {
 				String Val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");
 				String Val4 = sgcpDevice.getVal("CurrentAC", "CurrentACN");
 				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
-				
-				LOG.info("ABBMeter ActiveEnerBalanceAC [KWh]: acImport={} acExport={}  acNet={} \n", acImport, acExport, acNet);	
 			}
 			catch ( Exception e)
 			{
