@@ -17,7 +17,7 @@ public class SampleCommunicator {
 		try {	
 			
 			DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();
-			SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "betaModbusABBMeterV0.1.2.xml");
+			SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");
 			
 			GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTUMock();
 			GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();	
@@ -27,10 +27,11 @@ public class SampleCommunicator {
 			try {
 				
 				mbRTU.setUnitIdentifier((byte) 11);
-				String Val1 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveImportAC");
-				String Val2 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveExportAC");
-				String Val3 = sgcpDevice.getVal("ActiveEnerBalanceAC", "ActiveNetAC");
-				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + " %n");
+				String Val1 = sgcpDevice.getVal("CurrentAC", "CurrentACL1");
+				String Val2 = sgcpDevice.getVal("CurrentAC", "CurrentACL2");
+				String Val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");
+				String Val4 = sgcpDevice.getVal("CurrentAC", "CurrentACN");
+				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
 
 			}
 			catch ( Exception e)
