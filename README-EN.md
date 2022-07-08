@@ -1,16 +1,3 @@
-<style>
-    table, th, td {
-        border: 1px solid black;        
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }   
-    td {
-        padding: 8px;
-    }
-</style>
-
 # SGr-JavaSamples
 
 SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Communication Handler Library. The goal is to set up a test environment that allows to connect SGr components and different 'products' (heat pump, charging station, inverter, battery, electricity meter etc.) through the SGr communication interface. 
