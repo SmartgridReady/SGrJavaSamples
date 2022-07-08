@@ -4,9 +4,10 @@ package ch.smartgridready.communicator.example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.smartgridready.sgr.ns.v0.SGrModbusDeviceDescriptionType;
+import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
+
+import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
-import communicator.helper.GenDriverAPI4Modbus;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
 import communicator.impl.SGrModbusDevice;
 
@@ -48,13 +49,13 @@ public class SampleCommunicator {
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
 			//
 			DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();
-			SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "betaModbusABBMeterV0.1.2.xml");
+            SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");
 			
 			// Step 2: 
 			// Load the suitable device driver to communicate with the device. The example below uses
 			// mocked driver for modbus RTU.
 			//
-			// Change the driver to the real driver, suitable for your device. For example:
+			// Change the the driver to the real driver, suitable for your device. For example:
 			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();
 			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU();
 			//
@@ -77,17 +78,18 @@ public class SampleCommunicator {
 				
 				// Step 5: 
 				// Read the values from the device. 
-				// - "ActiveEnerBalanceAC" is the name of the functional profile.
-				// - "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that
+				// - "CurrentAC" is the name of the functional profile.
+				// - "CurrentACL1" ... "CurrentACN are the names of the Datapoints that
 				//   report the values corresponding to their names.
 				// 
 				// Hint: You can only read values for functional profiles and datapoints that exist 
 				// in the device description XML.
 				//
-				String acImport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveImportAC");
-				String acExport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveExportAC");
-				String acNet = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveNetAC");
-				LOG.info("ABBMeter ActiveEnerBalanceAC [KWh]: acImport={} acExport={}  acNet={} \n", acImport, acExport, acNet);	
+                String Val1 = abbMeterNo1.getVal("CurrentAC", "CurrentACL1");
+                String Val2 = abbMeterNo1.getVal("CurrentAC", "CurrentACL2");
+                String Val3 = abbMeterNo1.getVal("CurrentAC", "CurrentACL3");
+                String Val4 = abbMeterNo1.getVal("CurrentAC", "CurrentACN");
+                System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
 			}
 			catch ( Exception e)
 			{
