@@ -54,7 +54,7 @@ public class SampleCommunicator {
 			// Load the suitable device driver to communicate with the device. The example below uses
 			// mocked driver for modbus RTU.
 			//
-			// Change the the driver to the real driver, suitable for your device. For example:
+			// Change the driver to the real driver, suitable for your device. For example:
 			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();
 			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU();
 			//
@@ -78,7 +78,7 @@ public class SampleCommunicator {
 				// Step 5: 
 				// Read the values from the device. 
 				// - "ActiveEnerBalanceAC" is the name of the functional profile.
-				// - "ActiveImportAC", ActiveExportAC and ActiveNetAC are the names of the Datapoints that
+				// - "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that
 				//   report the values corresponding to their names.
 				// 
 				// Hint: You can only read values for functional profiles and datapoints that exist 
