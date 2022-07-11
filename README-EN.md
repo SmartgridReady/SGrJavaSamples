@@ -114,7 +114,7 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
 ## How to use SGrJavaSamples
 
 
-### Requirements / Prerequisits
+### Requirements / Prerequisites
 - Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
 - Java JDK version >= Java 1.8
 
@@ -122,6 +122,7 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
 - Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
 
 ### Build
+- Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
 - Run gradle 'build' target in your IDE or use the command line:<br>
 ```bash>gradle clean build```
 

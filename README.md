@@ -114,14 +114,15 @@ Z.B. Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähle
 ## Anwendung der SGrJavaSamples
 
 
-### Anforderungen / Prerequisits
+### Anforderungen / Prerequisites
 - Gradle Version >= 7.3.3. Anm.: Wenn keine IDE mit Gradle-Integration verwendet wird, muss Gradle erst lokal installiert werden: https://gradle.org/install/
 - Java JDK Version >= Java 1.8
 
 ### Clone
-- Klone dieses Repo auf dein lokales Device: https://github.com/SmartgridReady/SGrJavaSamples.git
+- Klone dieses Repo auf das lokale Device: https://github.com/SmartgridReady/SGrJavaSamples.git
 
 ### Build
+- Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
 - Run gradle 'build' target in your IDE or use the command line:<br>
 ```bash>gradle clean build```
 
@@ -132,7 +133,7 @@ Z.B. Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähle
 Step 1:
 Use the DeviceBeschreibungLoader class to Load the device Beschreibung from an XML file.
 <br><br>
-```DeviceBeschreibungLoader<SGrModbusDeviceBeschreibungType> loader = newDeviceBeschreibungLoader<>();```<br>
+```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();```<br>
 ```SGrModbusDeviceBeschreibungType sgcpMeter = loader.load( XML_BASE_DIR,"betaModbusABBMeterV0.1.2.xml");```
 <br><br>
 
