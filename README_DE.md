@@ -1,125 +1,134 @@
 # SGr-JavaSamples
 
-SGr-JavaSamples stellt Beispielprojekte zur Verfügung, welche die Anwendung der SGr Communication Handler Library demonstrieren. Ziel ist es eine Testumgebung aufzusetzen, die es ermöglicht, SGr-Komponenten und unterschiedliche 'Products' (Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähler​ etc.) via SGr-Kommunikationsschnittelle zu verbinden. 
+SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Communication Handler Library. The goal is to set up a test environment that allows to connect SGr components and different 'products' (heat pump, charging station, inverter, battery, electricity meter etc.) through the SGr communication interface. 
 
 ![SGr Architecture Overview](SGr-Architecture-Overview.png "SGr Architecture Overview")
 
-## Komponenten
+## Components
 
-### Komponente: Communicator
+### Component: Communicator
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>Communicator Provider (3rd Party)</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Der 'Communicator' kommuniziert mit ein oder mehreren 'Products' über das SGr 'Generic Interface'. 
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>Der Communicator instanziiert für jedes Product einen Communication Handler dem eine Beschreibung der Produkteschnittstelle in XML übergeben wird.</p>
-                <p>Der Communicator lädt einen Device-Treiber für die Kommunikationsschnittstelle zum Product (z.B. Modbus RTU/TCP, REST...).</p>
-                <p>Der Communicator liest die Datenpunkte aus oder setzt sie (analysiert und/oder steuert)​.</p>
+    <tr><td><b>Implementor:</b></td><td>Communicator Provider (3rd Party)</td></tr>
+    <tr><td><b>Description:</b></td><td>The 'Communicator' communicates with one or more 'Products' through the SGr 'Generic Interface'. 
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>For each product, the communicator instantiates a Communication Handler to which a description of the product interface in XML is given.</p>
+                <p>The Communicator loads a device driver for the communication interface of the product (e.g. Modbus RTU/TCP, REST...).</p>
+                <p>The communicator reads or sets (analyses and/or controls) the data points.</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProjekt:</b></td>
+    <tr><td><b>SGrProject:</b></td>
     <td><a href="https://github.com/SmartgridReady/SGrJavaSamples/tree/master/SampleCommunicator">SGrJavaSamples/SampleCommunicator<a></td>
     </r>
 </table>
 
 <br><br>
 
-### Komponente: Generic Interface
+### Component: Generic Interface
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>SGr Core Team</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Von SGr vorgegebene 'Product'-unabhängige Schnittstelle. 
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>Das Generic Interface wird vom Communicator benutzt, um mit den Product's im SGr Verbund zu kommunizieren.​</p>
+    <tr><td><b>Implementor:</b></td><td>SGr Core Team</td></tr>
+    <tr><td><b>Description:</b></td><td>SGr-defined 'Product'-independent interface. 
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>The Generic Interface is used by the Communicator to communicate with the products in the SGr network.​</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProjekt:</b></td>
+    <tr><td><b>SGrProject:</b></td>
     <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/SchemaDatabase/SGr/Generic">SmartgridReady/SGrSpecifications/SchemaDatabase/SGr/Generic<a></td>
     </r>
 </table>  
 
 <br><br>
 
-### Komponente: Communication Handler
+### Component: Communication Handler
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>SGr Core Team</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Ist die Kernkomponente der SGr Software und damit verantwortlich für die Verarbeitung und Umsetzung des SGr 'Generic Interface' auf das 'External Interface' des 'Product'.<br>
-    Wird vom 'Communicator' instanziiert und zur Kommunikation mit den angeschlossenen 'Product' benutzt.
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>​Verantwortlichkeiten sind:<br>
-- Lesen der XML-Device-Profile <br>
-- Verarbeiten von Kommandos der generischen Schnittstelle <br>
-- Umsetzen der Kommandos auf das External Interface des Product (gerätespezifische Schnittstelle)<br>
-- Senden der Kommandos an das Product über den durch das Product vorgegebenen Transportservice
+    <tr><td><b>Implementor:</b></td><td>SGr Core Team</td></tr>
+    <tr><td><b>Description:</b></td><td>This is the core component of the SGr software and it is responsible for the processing and implementation of the SGr 'Generic Interface' on the 'External Interface' of the 'Product'.<br>
+    Instantiated by the 'Communicator' and used to communicate with the connected 'Product'.
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>​Responsibilities are:<br>
+- Reading the XML device profiles <br>
+- Processing commands of the Generic Interface <br>
+- Execute the commands on the External Interface of the product (device-specific interface)<br>
+- Sending the commands to the Product through the transport service specified by the Product.
 </p>
                 <p></p> </td></tr>
     <tr><td><b>Library:</b></td><td>commhandler4modbus.jar</td></tr>                                                                                          
-    <tr><td><b>SGrProjekt:</b></td>
+    <tr><td><b>SGrProject:</b></td>
     <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus<a></td>
     </r>
 </table> 
 
 <br><br>
 
-### Komponente: XML (XML-Profile)
+### Component: XML (XML-Profile)
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>Anbieter des 'Product'</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>​Das XML File beschreibt die 'Funktionsprofile', Datenpunkte und Attribute, welche über die SGr-Schnittstelle angesprochen werden können​. Weiter stellt das File allgemeine Informationen zum 'Product' zur Verfügung.
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>​Bereitstellen von allgemeinen Daten zum Product.</p>
-                <p>Bereitstellen der zum mapping des SGr Generic Interface auf das External Interface notwendigen Daten.</p> </td></tr>        
-    <tr><td><b>SGrProjekt:</b></td>
+    <tr><td><b>Implementor:</b></td><td>Provider of the 'Product'</td></tr>
+    <tr><td><b>Description:</b></td><td>​The XML file describes the ''function profiles', data points and attributes that can be addressed over the SGr interface. The XML file also provides general information about the 'Product'.
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>Providing general data on the Product.</p>
+                <p>Provide the data necessary for mapping the SGr Generic Interface with the External Interface.</p> </td></tr>        
+    <tr><td><b>SGrProject:</b></td>
     <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/XMLInstances/ExtInterfaces">SmartgridReady/SGrSpecifications/XMLInstances/ExtInterfaces<a></td>
     </r>
 </table> 
 
 <br><br>
 
-### Komponente: Transport Layer (Transport Service)
+### Component: Transport Layer (Transport Service)
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>- SGr Core Team<br>- 3rd Party Provider</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Der 'TransportService' bildet das Bindeglied zur physischen Kommunaktionsschnittstelle zum 'Product'. Das SGr Core Team stellt für Modbus die EasyModbus Library zur Verfügung.
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>​Der SGr Transport Service unterstützt folgende Kommunikations-Technologien, um darauf aufbauend folgende Transport Servies anzubieten:<br>
+    <tr><td><b>Implementor:</b></td><td>- SGr Core Team<br>- 3rd Party Provider</td></tr>
+    <tr><td><b>Description:</b></td><td>The 'TransportService' is the link to the physical communication interface of the 'Product'. The SGr Core Team provides the EasyModbus Library for Modbus.
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>​The SGr Transport Service supports the following communication technologies to provide the following transport services:<br>
                 - Modbus​, REST/JSON​, Sunspec​<br>
-                - Unterstützung geplant:​ OCPP 2.0​, IEC-61968-9​, IEC-608070-5-104</p>
+                - Support is planned for:​ OCPP 2.0​, IEC-61968-9​, IEC-608070-5-104</p>
                 <p></p> </td></tr> 
     <tr><td><b>Library:</b></td>
     <td>easymodbus.jar</td>                            
-    <tr><td><b>SGrProjekt:</b></td>    
+    <tr><td><b>SGrProject:</b></td>    
     <td>für Modbus:<br><a href="https://github.com/SmartgridReady/SGrJavaDrivers/tree/master/EasyModbus">SmartgridReady/SGrJavaDrivers/EasyModbus<a></td>
     </r>
 </table> 
 
 <br><br>
 
-### Komponente: External Interface (EI)
+### Component: External Interface (EI)
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>Hersteller des 'Product'</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Das 'External Interface' ist die vom 'Product' bereitgestellte Schnittstelle. 
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>Stellt das External Interface des Product zur Verfügung. Diese wird im XML-Profile zum Product beschrieben.</p></td></tr>                
+    <tr><td><b>Implementor:</b></td><td>Manufacturer of the 'Product'</td></tr>
+    <tr><td><b>Description:</b></td><td>The 'External Interface' is the interface provided by the 'Product'.
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>Provides the External Interface of the product. This is described in the Product XML Profile.</p></td></tr>                
 </table> 
 
 <br><br>
 
 ### Komponente: Product
 <table valign="top">
-    <tr><td><b>Implementer:</b></td><td>Hersteller des 'Product'</td></tr>
-    <tr><td><b>Beschreibung:</b></td><td>Das Product ist ein Device, das Eigenschaften, Datenpunkte und Ansteuerungsmöglichkeiten zur Verfügung​ stellt.
-Z.B. Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähler​ 
-    <tr><td valign="top"><b>Verantwortlich:</b></td><td>
-                <p>...
+    <tr><td><b>Implementor:</b></td><td>Manufacturer of the 'Product'</td></tr>
+    <tr><td><b>Description:</b></td><td>The Product is a device that provides properties, data points and control options.
+E.g. heat pump, charging station, inverter, battery, electricity meter 
+    <tr><td valign="top"><b>Responsibilities:</b></td><td>
+                <p>
 </p></td></tr>
 </table>
 
 <br><br>
 
-## Anwendung der SGrJavaSamples
+## How to use SGrJavaSamples
 
 
+<<<<<<< HEAD:README_DE.md
 ### Anforderungen / Prerequisites
 - Gradle Version >= 7.3.3. Anm.: Wenn keine IDE mit Gradle-Integration verwendet wird, muss Gradle erst lokal installiert werden: https://gradle.org/install/
 - Java JDK Version >= Java 1.8
 
 ### Clone
 - Klone dieses Repo auf das lokale Device: https://github.com/SmartgridReady/SGrJavaSamples.git
+=======
+### Requirements / Prerequisits
+- Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
+- Java JDK version >= Java 1.8
+
+### Clone
+- Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
+>>>>>>> 4c7c3d275f41007e4cde3645411501475e745344:README.md
 
 ### Build
 - Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
@@ -128,17 +137,22 @@ Z.B. Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähle
 
 <br><br>
 
-### Code-Beschreibung zum SampleCommunicator
+### Code description for the SampleCommunicator
 
 Step 1:
-Use the DeviceBeschreibungLoader class to Load the device Beschreibung from an XML file.
+Use the DeviceDescriptionLoader class to load the device description from an XML file.
 <br><br>
+<<<<<<< HEAD:README_DE.md
 ```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();```<br>
 ```SGrModbusDeviceBeschreibungType sgcpMeter = loader.load( XML_BASE_DIR,"betaModbusABBMeterV0.1.2.xml");```
+=======
+```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = newDeviceDescriptionLoader<>();```<br>
+```SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR,"betaModbusABBMeterV0.1.2.xml");```
+>>>>>>> 4c7c3d275f41007e4cde3645411501475e745344:README.md
 <br><br>
 
 Step2:
-Load the suitable device driver to communicate with the device. The example below uses mocked driver for modbus RTU.
+Load the suitable device driver to communicate with the device. The example below uses a mocked driver for modbus RTU.
 Change the driver to the real driver, suitable for your device. For example:
 <br><br>
 ```GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();```<br>
@@ -147,12 +161,12 @@ Change the driver to the real driver, suitable for your device. For example:
 <br><br>
 
 Step 2a (Modbus RTU only):
-Initialise the serial COM port used by the modbus transport service.
+Initialie the serial COM port used by the modbus transport service.
 ```mbRTUMock.initTrspService("COM9");```
 <br><br>
 
 Step 3:
-Instantiate a modbus device. Provide the device Beschreibung and the device driver instance to be used for the device.<br><br>
+Instantiate a modbus device. Provide the device description and the device driver instance to be used for the device.<br><br>
 ```SGrModbusDevice abbMeterNo1 = new SGrModbusDevice(sgcpMeter, mbRTUMock );```<br> ```try {```
 <br><br>
 
@@ -164,19 +178,19 @@ Step 5: Read the values from the device.
 - "ActiveEnerBalanceAC" is the name of the functional profile.
 - "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that report the values corresponding to their names.
 
-<i>Hint: You can only read values for functional profiles and datapoints that exist in the device Beschreibung XML.</i><br>
+<i>Hint: You can only read values for functional profiles and datapoints that exist in the device description XML.</i><br>
 ```String acImport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveImportAC");```<br>
 ```String acExport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveExportAC");```<br>
 ```String acNet = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveNetAC");```
 <br><br>
 
-Der komplette Beispielcode ist auf GitHub:<br>
+The complete sample code can be found on github:<br>
 https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/SampleCommunicator.java
 <br><br>
 
-## Weiterführende Informationen / Kontakt
+## Further information / contact information
 
-Glossar: *ToDo Link*
+Glossary: *ToDo Link*
 
-Webseite: https://smartgridready.ch/ <br>
+Webssite: https://smartgridready.ch/ <br>
 E-Mail: info@smartgridready.ch
