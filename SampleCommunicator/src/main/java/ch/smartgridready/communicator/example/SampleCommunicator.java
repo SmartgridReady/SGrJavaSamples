@@ -23,16 +23,10 @@ package ch.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
-
 import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
 import communicator.helper.GenDriverAPI4ModbusRTUMock;
 import communicator.impl.SGrModbusDevice;
-import de.re.easymodbus.adapter.GenDriverAPI4ModbusTCP;
 
 
 /** 
@@ -59,8 +53,6 @@ import de.re.easymodbus.adapter.GenDriverAPI4ModbusTCP;
  * 
  **/
 public class SampleCommunicator {
-	
-	private static final Logger LOG =  LoggerFactory.getLogger(SampleCommunicator.class);
 	
 	private static final String XML_BASE_DIR = "../../SGrSpecifications/XMLInstances/ExtInterfaces/";
 	
@@ -92,7 +84,7 @@ public class SampleCommunicator {
 			// Step 3:
 			// Instantiate a modbus device. Provide the device description and the device driver
 			// instance to be used for the device.
-			SGrModbusDevice abbMeterNo1 = new SGrModbusDevice(sgcpMeter, mbRTUMock );			
+			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );			
 			try {				
 				
 				// Step 4 (Modbus RTU only):
@@ -101,8 +93,8 @@ public class SampleCommunicator {
 				
 				// Step 5: 
 				// Read the values from the device. 
-				// - "ActiveEnerBalanceAC" is the name of the functional profile.
-				// - "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that
+				// - "CurrentAC" is the name of the functional profile.
+				// - "CurrentACL1", "CurrentACL2" ... "CurrentACLN" are the names of the Datapoints that
 				//   report the values corresponding to their names.
 				// 
 				// Hint: You can only read values for functional profiles and datapoints that exist 
@@ -112,17 +104,18 @@ public class SampleCommunicator {
 				String Val2 = sgcpDevice.getVal("CurrentAC", "CurrentACL2");
 				String Val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");
 				String Val4 = sgcpDevice.getVal("CurrentAC", "CurrentACN");
+				
 				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
 			}
 			catch ( Exception e)
 			{
-				LOG.error( "Error reading value from device. ", e);
+				System.out.println( "Error reading value from device: " + e.getMessage());
 			}									 									
 			
 		}
 		catch ( Exception e )
 		{
-			LOG.error( "Error loading device description. ", e);
+			System.out.println( "Error loading device description: " + e.getMessage());
 		}									
 	}		
 }

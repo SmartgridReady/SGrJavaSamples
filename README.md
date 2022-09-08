@@ -130,13 +130,13 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
 
 <br><br>
 
-### Code description for the SampleCommunicator
+## Code description for the SampleCommunicator
 
 Step 1:
 Use the DeviceDescriptionLoader class to load the device description from an XML file.
 <br><br>
-```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = newDeviceDescriptionLoader<>();```<br>
-```SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR,"betaModbusABBMeterV0.1.2.xml");```
+```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();```<br>
+```SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");```
 <br><br>
 
 Step2:
@@ -155,7 +155,7 @@ Initialie the serial COM port used by the modbus transport service.
 
 Step 3:
 Instantiate a modbus device. Provide the device description and the device driver instance to be used for the device.<br><br>
-```SGrModbusDevice abbMeterNo1 = new SGrModbusDevice(sgcpMeter, mbRTUMock );```<br> ```try {```
+```SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );```<br> ```try {```
 <br><br>
 
 Step 4 (Modbus RTU only): Set the unit identifier of the device to read out. <br>
@@ -163,14 +163,14 @@ Step 4 (Modbus RTU only): Set the unit identifier of the device to read out. <br
 <br><br>
 
 Step 5: Read the values from the device. 
-- "ActiveEnerBalanceAC" is the name of the functional profile.
-- "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that report the values corresponding to their names.
+- "CurrentAC" is the name of the functional profile.
+- "CurrentACL1", "CurrentACL2", "CurrentACL3" and "ActiveNetACN" are the names of the Datapoints that report the values corresponding to their names.
 
 <i>Hint: You can only read values for functional profiles and datapoints that exist in the device description XML.</i><br>
-```String acImport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveImportAC");```<br>
-```String acExport = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveExportAC");```<br>
-```String acNet = abbMeterNo1.getVal("ActiveEnerBalanceAC", "ActiveNetAC");```
-<br><br>
+```String val1 = sgcpDevice.getVal("CurrentAC", "CurrentACL1");```<br>
+```String val2 = sgcpDevice.getVal("CurrentAC", "CurrentACL2");```<br>
+```String val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");```<br>
+```String val4 = sgcpDevice.getVal("CurrentAC", "ActiveNetACN");```<br><br>
 
 The complete sample code can be found on github:<br>
 https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/SampleCommunicator.java

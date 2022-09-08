@@ -25,10 +25,9 @@ package ch.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
 
-import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
-import de.re.easymodbus.adapter.GenDriverAPI4ModbusRTU;
 import communicator.impl.SGrModbusDevice;
+import de.re.easymodbus.adapter.GenDriverAPI4ModbusRTU;
 
 
 public class SampCommunicatorModbusRTU {
