@@ -34,10 +34,12 @@ java {
 dependencies {
 
 	implementation group: 'ch.smartgridready', name: 'commhandler4modbus', version: '0.2.1'
+	   implementation group: 'io.github.java-native', name: 'jssc', version: '2.9.2'
 	
 	// Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.18.0'
+
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
