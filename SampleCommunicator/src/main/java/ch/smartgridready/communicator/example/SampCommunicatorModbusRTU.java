@@ -47,7 +47,7 @@ public class SampCommunicatorModbusRTU {
 			SGrModbusDeviceDescriptionType tstMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
 			
 			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
-			mbRTU.initTrspService("COM3");	
+			mbRTU.initTrspService("COM9");	
 			
 			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU );
 				
@@ -55,7 +55,7 @@ public class SampCommunicatorModbusRTU {
 			try {	
 			// set device address of devWagoMeter
 				
-			mbRTU.setUnitIdentifier((byte) 1);
+			mbRTU.setUnitIdentifier((byte) 7);
 				
 		    System.out.println();
 			System.out.println("Testing WAGO Meter");
