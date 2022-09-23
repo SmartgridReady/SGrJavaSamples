@@ -1,5 +1,12 @@
 # SGr-JavaSamples
 
+## Index
+[Summary](#summary)<br>
+[Components](#components)<br>
+[How to use SGrJavaSamples](#how-to-use-sgrjavasamples)<br>
+[Code description](#code-description-for-the-samplecommunicator)<br>
+
+## Summary
 SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Communication Handler Library. The goal is to set up a test environment that allows to connect SGr components and different 'products' (heat pump, charging station, inverter, battery, electricity meter etc.) through the SGr communication interface. 
 [German Version](README_DE.md)
 
