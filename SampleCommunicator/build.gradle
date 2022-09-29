@@ -7,15 +7,20 @@
  */
 
 plugins {
-    // Apply the java-library plugin to add support for Java Library
     id 'java-library'
 }
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    mavenLocal()
    	mavenCentral()
+//   	mavenLocal()
+
+   	maven {
+   	    credentials {
+            username = 'ergo-furrer'
+            password = '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'
+   	    }
+   	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
+   	}
 }
 
 sourceSets 
@@ -34,11 +39,17 @@ java {
 dependencies {
 
 	implementation group: 'ch.smartgridready', name: 'commhandler4modbus', version: '0.2.1'
-	   implementation group: 'io.github.java-native', name: 'jssc', version: '2.9.2'
+	implementation group: 'ch.smartgridready', name: 'easymodbus', version: '0.2.1'
+    implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '0.2.1'
 	
-	// Logging
+	implementation group: 'io.github.java-native', name: 'jssc', version: '2.9.2'	
+    implementation group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore', version: '2.24.0'   
+    implementation group: 'org.eclipse.emf', name: 'org.eclipse.emf.common', version: '2.24.0'
+    
+    // Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.18.0'
+    
 
 
     // Use JUnit test framework
