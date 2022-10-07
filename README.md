@@ -129,6 +129,9 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
 
 ### Clone
 - Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
+- Clone this repo to your local device: https://github.com/SmartgridReady/SGrSpecifications.git
+
+Rem: The folder [your-local-clone-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML used by the SGrJavaSamples.
 
 ### Build
 - Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
