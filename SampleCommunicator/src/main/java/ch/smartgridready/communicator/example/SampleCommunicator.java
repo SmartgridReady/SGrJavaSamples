@@ -21,7 +21,7 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package ch.smartgridready.communicator.example;
 
-import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
+import com.smartgridready.ns.v0.SGrModbusDeviceFrame;
 
 import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.helper.DeviceDescriptionLoader;
@@ -63,8 +63,8 @@ public class SampleCommunicator {
 			// Step 1: 
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
 			//
-			DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();
-			SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");
+			DeviceDescriptionLoader<SGrModbusDeviceFrame> loader = new DeviceDescriptionLoader<>();
+			SGrModbusDeviceFrame sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");
 			
 			// Step 2: 
 			// Load the suitable device driver to communicate with the device. The example below uses

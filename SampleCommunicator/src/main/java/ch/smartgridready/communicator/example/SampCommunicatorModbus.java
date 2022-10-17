@@ -21,14 +21,6 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package ch.smartgridready.communicator.example;
 
-import com.smartgridready.ns.v0.SGrModbusDeviceDescriptionType;
-
-import communicator.common.runtime.GenDriverAPI4Modbus;
-import communicator.helper.DeviceDescriptionLoader;
-import communicator.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.impl.SGrModbusDevice;
-import de.re.easymodbus.adapter.GenDriverAPI4ModbusTCP;
-
 public class SampCommunicatorModbus {
 
 }
