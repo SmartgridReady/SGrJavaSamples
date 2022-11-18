@@ -2,18 +2,38 @@
 
 ## Index
 [Summary](#summary)<br>
-[Components](#components)<br>
-[How to use SGrJavaSamples](#how-to-use-sgrjavasamples)<br>
+[Installation](#how-to-use-sgrjavasamples)<br>
+[Architecture](#architecture)<br>
 [Code description](#code-description-for-the-samplecommunicator)<br>
 
 ## Summary
 SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Communication Handler Library. The goal is to set up a test environment that allows to connect SGr components and different 'products' (heat pump, charging station, inverter, battery, electricity meter etc.) through the SGr communication interface. 
 [German Version](README_DE.md)
 
+## Installation
+
+
+### Requirements / Prerequisites
+- Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
+- Java JDK version >= Java 1.8
+
+### Clone
+- Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
+- Clone this repo to your local device: https://github.com/SmartgridReady/SGrSpecifications.git
+
+Rem: The folder [your-local-clone-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML-files used by the SGrJavaSamples.
+
+### Build
+- Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
+- Run gradle 'build' target in your IDE or use the command line:<br>
+```bash>gradle clean build```
+
+<br><br>
+
+## Architecture
 
 ![SGr Architecture Overview](SGr-Architecture-Overview.png "SGr Architecture Overview")
 
-## Components
 
 ### Component: Communicator
 <table valign="top">
@@ -117,26 +137,6 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
                 <p>
 </p></td></tr>
 </table>
-
-<br><br>
-
-## How to use SGrJavaSamples
-
-
-### Requirements / Prerequisites
-- Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
-- Java JDK version >= Java 1.8
-
-### Clone
-- Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
-- Clone this repo to your local device: https://github.com/SmartgridReady/SGrSpecifications.git
-
-Rem: The folder [your-local-clone-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML-files used by the SGrJavaSamples.
-
-### Build
-- Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
-- Run gradle 'build' target in your IDE or use the command line:<br>
-```bash>gradle clean build```
 
 <br><br>
 
