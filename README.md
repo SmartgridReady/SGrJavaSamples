@@ -22,11 +22,12 @@ SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Com
 - https://github.com/SmartgridReady/SGrJavaSamples.git
 - https://github.com/SmartgridReady/SGrSpecifications.git
 
-Rem: The folder [your-local-clone-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML-files used by the SGrJavaSamples.
+Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML-files used by the SGrJavaSamples.
 
 ### Build
-- Go to the local SGrJavaSamples directory (...\SGrJavaSamples\SampleCommunicator)
-- Run gradle 'build' target in your IDE or use the command line:<br>
+- Open the [your-local-project-folder]\SGrJavaSamples\SampleCommunicator with your IDE.
+- Run gradle 'build' target in your IDE 
+- You can also run Gradle from the command line. Change to the [your-local-project-folder]\SGrJavaSamples\SampleCommunicator directory and run:<br>
 ```bash>gradle clean build```
 
 <br><br>
