@@ -2,7 +2,7 @@
 
 ## Index
 [Summary](#summary)<br>
-[Installation](#how-to-use-sgrjavasamples)<br>
+[Installation](#installation)<br>
 [Architecture](#architecture)<br>
 [Code description](#code-description-for-the-samplecommunicator)<br>
 
@@ -12,14 +12,15 @@ SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Com
 
 ## Installation
 
-
 ### Requirements / Prerequisites
 - Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
 - Java JDK version >= Java 1.8
 
 ### Clone
-- Clone this repo to your local device: https://github.com/SmartgridReady/SGrJavaSamples.git
-- Clone this repo to your local device: https://github.com/SmartgridReady/SGrSpecifications.git
+- Create a new folder for the project (eg. 'SmartGridCommunicator').
+- Clone the following projects to the new folder:
+- https://github.com/SmartgridReady/SGrJavaSamples.git
+- https://github.com/SmartgridReady/SGrSpecifications.git
 
 Rem: The folder [your-local-clone-folder]/SGrSpecifications/XMLInstances/ExtInterfaces contains the device description XML-files used by the SGrJavaSamples.
 
