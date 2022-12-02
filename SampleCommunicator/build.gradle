@@ -12,8 +12,10 @@ plugins {
 
 repositories {
    	mavenCentral()
+//  using lacal generation
 //   	mavenLocal()
 
+// using public from github
    	maven {
    	    credentials {
             username = 'ergo-furrer'
