@@ -12,16 +12,17 @@ plugins {
 
 repositories {
    	mavenCentral()
-//  using lacal generation
+//  Uncomment to use commhandler from local Maven repository
 //   	mavenLocal()
 
-//   	maven {
-//   	    credentials {
-//            username = 'ergo-furrer'
-//            password = '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'
-//   	    }
-//   	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
-//   	}
+//  Uncomment to use commhandler from GitHub Maven repository
+   	maven {
+   	    credentials {
+            username = 'ergo-furrer'
+            password = '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'
+   	    }
+   	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
+   	}
 }
 
 sourceSets 
