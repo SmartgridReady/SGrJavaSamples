@@ -161,7 +161,7 @@ Step 4 (Modbus RTU only): Set the unit identifier of the device to read out. <br
 <br><br>
 
 Step 5: Read the values from the device. 
-- "ActiveEnerBalanceAC" is the name of the functional profile.
+- "ActiveEnergyBalanceAC" is the name of the functional profile.
 - "ActiveImportAC", "ActiveExportAC" and "ActiveNetAC" are the names of the Datapoints that report the values corresponding to their names.
 
 <i>Hint: You can only read values for functional profiles and datapoints that exist in the ```String val1 = sgcpDevice.getVal("CurrentAC", "CurrentACL1");```<br>

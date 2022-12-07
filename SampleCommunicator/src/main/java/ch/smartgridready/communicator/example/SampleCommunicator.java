@@ -105,7 +105,7 @@ public class SampleCommunicator {
 				String Val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");
 				String Val4 = sgcpDevice.getVal("CurrentAC", "CurrentACN");
 				
-				System.out.printf("ABBMeter ActiveEnerBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
+				System.out.printf("ABBMeter ActiveEnergyBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
 			}
 			catch ( Exception e)
 			{

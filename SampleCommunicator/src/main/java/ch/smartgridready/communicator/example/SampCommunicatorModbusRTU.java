@@ -47,15 +47,14 @@ public class SampCommunicatorModbusRTU {
 			SGrModbusDeviceFrame tstMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
 			
 			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
-			mbRTU.initTrspService("COM9");	
+			mbRTU.initTrspService("COM3", 19200);	
 			
-			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU );
-				
+			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU );				
 			
 			try {	
 			// set device address of devWagoMeter
 				
-			mbRTU.setUnitIdentifier((byte) 7);
+			mbRTU.setUnitIdentifier((byte) 1);
 				
 		    System.out.println();
 			System.out.println("Testing WAGO Meter");
@@ -136,20 +135,20 @@ public class SampCommunicatorModbusRTU {
 			System.out.printf("  ApparentPowerAC [kva]:        " + sVal1 + ", " + sVal2 + ",  " + sVal3
 					+ ",  " + sVal4 + " %n");
 			Thread.sleep(10);
-			sVal1 = devWagoMeter.getVal("ActiveEnerBalanceAC", "ActiveImportAC");
+			sVal1 = devWagoMeter.getVal("ActiveEnergyBalanceAC", "ActiveImportAC");
 			Thread.sleep(10);
-			sVal2 = devWagoMeter.getVal("ActiveEnerBalanceAC", "ActiveExportAC");
+			sVal2 = devWagoMeter.getVal("ActiveEnergyBalanceAC", "ActiveExportAC");
 			Thread.sleep(10);
-			sVal3 = devWagoMeter.getVal("ActiveEnerBalanceAC", "ActiveNetAC");
-			System.out.printf("  ActiveEnerBalanceAC [KWh]:    " + sVal1 + ", " + sVal2 + ",  " + sVal3 + " %n");
+			sVal3 = devWagoMeter.getVal("ActiveEnergyBalanceAC", "ActiveNetAC");
+			System.out.printf("  ActiveEnergyBalanceAC [KWh]:    " + sVal1 + ", " + sVal2 + ",  " + sVal3 + " %n");
 
 			Thread.sleep(10);
-			sVal1 = devWagoMeter.getVal("ReactiveEnerBalanceAC", "ReactiveImportAC");
+			sVal1 = devWagoMeter.getVal("ReactiveEnergyBalanceAC", "ReactiveImportAC");
 			Thread.sleep(10);
-			sVal2 = devWagoMeter.getVal("ReactiveEnerBalanceAC", "ReactiveExportAC");
+			sVal2 = devWagoMeter.getVal("ReactiveEnergyBalanceAC", "ReactiveExportAC");
 			Thread.sleep(10);
-			sVal3 = devWagoMeter.getVal("ReactiveEnerBalanceAC", "ReactiveNetAC");
-			System.out.printf("  ReactiveEnerBalanceAC [kvarh]:" + sVal1 + ", " + sVal2 + ",  " + sVal3  + " %n");
+			sVal3 = devWagoMeter.getVal("ReactiveEnergyBalanceAC", "ReactiveNetAC");
+			System.out.printf("  ReactiveEnergyBalanceAC [kvarh]:" + sVal1 + ", " + sVal2 + ",  " + sVal3  + " %n");
 			
 			Thread.sleep(10);
 			sVal1 = devWagoMeter.getVal("PowerQuadrant", "PwrQuadACtot");
@@ -181,7 +180,5 @@ public class SampCommunicatorModbusRTU {
 		{
 			System.out.println( "Error loading device description. " + e);
 		}									
-	}
-	
-	
+	}		
 }

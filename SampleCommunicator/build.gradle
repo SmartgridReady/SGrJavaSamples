@@ -15,14 +15,13 @@ repositories {
 //  using lacal generation
 //   	mavenLocal()
 
-// using public from github
-   	maven {
-   	    credentials {
-            username = 'ergo-furrer'
-            password = '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'
-   	    }
-   	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
-   	}
+//   	maven {
+//   	    credentials {
+//            username = 'ergo-furrer'
+//            password = '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'
+//   	    }
+//   	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
+//   	}
 }
 
 sourceSets 
