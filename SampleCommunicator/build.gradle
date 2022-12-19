@@ -40,7 +40,10 @@ java {
 
 dependencies {
 
-	implementation group: 'ch.smartgridready', name: 'commhandler4modbus', version: '0.2.1'
+	implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '0.2.1') {
+        exclude group: 'SGrJava.InterfaceFactory', module: 'emfEI4Modbus'
+    }
+
 	implementation group: 'ch.smartgridready', name: 'easymodbus', version: '0.2.1'
     implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '0.2.1'
 	
