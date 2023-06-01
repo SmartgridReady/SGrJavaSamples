@@ -21,6 +21,9 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package ch.smartgridready.communicator.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.smartgridready.ns.v0.SGrModbusDeviceFrame;
 
 import communicator.common.runtime.GenDriverAPI4Modbus;
@@ -53,10 +56,13 @@ import communicator.impl.SGrModbusDevice;
  * 
  **/
 public class SampleCommunicator {
-	
+
+	private static final Logger LOG = LoggerFactory.getLogger(SampleCommunicator.class);
+
+	private static final String PROFILE_CURRENT_AC = "CurrentAC";
 	private static final String XML_BASE_DIR = "../../SGrSpecifications/XMLInstances/ExtInterfaces/";
 	
-	public static void main( String argv[] ) {				
+	public static void main( String[] argv ) {
 		
 		try {	
 			 
@@ -71,8 +77,8 @@ public class SampleCommunicator {
 			// mocked driver for modbus RTU.
 			//
 			// Change the driver to the real driver, suitable for your device. For example:
-			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP();
-			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU();
+			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP()
+			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU()
 			//
 			GenDriverAPI4Modbus mbRTUMock = new GenDriverAPI4ModbusRTUMock();
 			
@@ -84,38 +90,42 @@ public class SampleCommunicator {
 			// Step 3:
 			// Instantiate a modbus device. Provide the device description and the device driver
 			// instance to be used for the device.
-			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );			
-			try {				
-				
-				// Step 4 (Modbus RTU only):
-				// Set the unit identifier of the device to read out. 
-				mbRTUMock.setUnitIdentifier((byte) 11);
-				
-				// Step 5: 
-				// Read the values from the device. 
-				// - "CurrentAC" is the name of the functional profile.
-				// - "CurrentACL1", "CurrentACL2" ... "CurrentACLN" are the names of the Datapoints that
-				//   report the values corresponding to their names.
-				// 
-				// Hint: You can only read values for functional profiles and datapoints that exist 
-				// in the device description XML.
-				//
-				String Val1 = sgcpDevice.getVal("CurrentAC", "CurrentACL1");
-				String Val2 = sgcpDevice.getVal("CurrentAC", "CurrentACL2");
-				String Val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");
-				String Val4 = sgcpDevice.getVal("CurrentAC", "CurrentACN");
-				
-				System.out.printf("ABBMeter ActiveEnergyBalanceAC [KWh]:  " + Val1 + ",  " + Val2 + ",  " + Val3 + ", " + Val4 + " %n");
-			}
-			catch ( Exception e)
-			{
-				System.out.println( "Error reading value from device: " + e.getMessage());
-			}									 									
-			
+			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );
+
+			communicateWithDevice(mbRTUMock, sgcpDevice);
 		}
 		catch ( Exception e )
 		{
-			System.out.println( "Error loading device description: " + e.getMessage());
+			LOG.error( "Error loading device description. ", e);
 		}									
-	}		
+	}
+
+	private static void communicateWithDevice(GenDriverAPI4Modbus mbRTUMock, SGrModbusDevice sgcpDevice) {
+		try {
+			
+			// Step 4 (Modbus RTU only):
+			// Set the unit identifier of the device to read out. 
+			mbRTUMock.setUnitIdentifier((byte) 11);
+			
+			// Step 5: 
+			// Read the values from the device. 
+			// - "CurrentAC" is the name of the functional profile.
+			// - "CurrentACL1", "CurrentACL2" ... "CurrentACLN" are the names of the Datapoints that
+			//   report the values corresponding to their names.
+			// 
+			// Hint: You can only read values for functional profiles and datapoints that exist 
+			// in the device description XML.
+			//
+			String val1 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL1");
+			String val2 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL2");
+			String val3 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL3");
+			String val4 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACN");
+			
+			LOG.info("ABBMeter CurrentAC:  {},  {},  {}, {}", val1, val2, val3, val4);
+		}
+		catch ( Exception e)
+		{
+			LOG.error( "Error reading value from device. ", e);
+		}
+	}
 }

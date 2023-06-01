@@ -13,7 +13,7 @@ plugins {
 repositories {
    	mavenCentral()
 //  Uncomment to use commhandler from local Maven repository
-//   	mavenLocal()
+   	//mavenLocal()
 
 //  Uncomment to use commhandler from GitHub Maven repository
    	maven {
