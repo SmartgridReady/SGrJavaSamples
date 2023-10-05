@@ -21,16 +21,14 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package ch.smartgridready.communicator.example;
 
+import com.smartgridready.ns.v0.DeviceFrame;
+import communicator.common.helper.DeviceDescriptionLoader;
+import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
+import communicator.modbus.impl.SGrModbusDevice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartgridready.ns.v0.SGrModbusDeviceFrame;
-
 import communicator.common.runtime.GenDriverAPI4Modbus;
-import communicator.helper.DeviceDescriptionLoader;
-import communicator.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.impl.SGrModbusDevice;
-
 
 /** 
  * <p>
@@ -69,8 +67,8 @@ public class SampleCommunicator {
 			// Step 1: 
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
 			//
-			DeviceDescriptionLoader<SGrModbusDeviceFrame> loader = new DeviceDescriptionLoader<>();
-			SGrModbusDeviceFrame sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");
+			DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
+			DeviceFrame sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
 			
 			// Step 2: 
 			// Load the suitable device driver to communicate with the device. The example below uses
@@ -116,12 +114,11 @@ public class SampleCommunicator {
 			// Hint: You can only read values for functional profiles and datapoints that exist 
 			// in the device description XML.
 			//
-			String val1 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL1");
-			String val2 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL2");
-			String val3 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL3");
-			String val4 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACN");
+			float val1 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL1").getFloat32();
+			float val2 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL2").getFloat32();
+			float val3 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL3").getFloat32();
 			
-			LOG.info("ABBMeter CurrentAC:  {},  {},  {}, {}", val1, val2, val3, val4);
+			LOG.info(String.format("Wago-Meter CurrentAC:  %.4fA,  %.4fA,  %.4fA", val1, val2, val3));
 		}
 		catch ( Exception e)
 		{
