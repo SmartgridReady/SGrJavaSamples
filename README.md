@@ -187,7 +187,7 @@ Step 2b (Modbus RTU only): Set the unit identifier of the device to read out. <b
 
 Step 3:
 Instantiate a modbus device. Provide the device description and the device driver instance to be used for the device.<br><br>
-```SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );```<br> ```try {```
+```SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );```
 <br><br>
 
 Step 4: Read the values from the device. 
@@ -200,27 +200,26 @@ Step 4: Read the values from the device.
 ```String val3 = sgcpDevice.getVal("VoltageAC", "VoltageL3");```<br><br>
 
 The complete sample code can be found on github:<br>
-https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/BasicSampleCommunicator.java
-<br><br>
+https://github.com/SmartgridReady/SGrJavaSamples/blob/master/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/BasicSampleCommunicator.java
 
 ### EnumAndBitmapSampleCommunicator
 
 Sample code on how to read and write enums and bitmap registers using the commhandler library.<br>
 You find the sample code on github:
-https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/EnumAndBitmapSampleCommunicator.java
+https://github.com/SmartgridReady/SGrJavaSamples/blob/master/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/EnumAndBitmapSampleCommunicator.java
 
 ### AsynchronousSampleCommunicator
 
 Sample code on how to read multiple devices in parallel using the async features of the commhandler library.
 This sample a JUnit5 test. Use the Junit test runner to run the sample code.
 You find the sample code on github:
-https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/AsynchronousSampleCommunicatorTest.java
+https://github.com/SmartgridReady/SGrJavaSamples/blob/master/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/AsynchronousSampleCommunicatorTest.java
 
 ### WagoSmartMeterCommunicator
 
-If you are happy owner of a WAGO Smart-Meter you can read the read values from the real device with
-this sample communicator application.
-
+If you are happy owner of a WAGO Smart-Meter you can read the read values from the real device with this sample communicator application.<br>
+You find the sample code on github:<br>
+https://github.com/SmartgridReady/SGrJavaSamples/blob/master/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/WagoSmartMeterCommunicator.java
 
 ## Further information / contact information
 
