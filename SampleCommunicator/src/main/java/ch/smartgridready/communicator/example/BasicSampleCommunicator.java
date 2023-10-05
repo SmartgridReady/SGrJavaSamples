@@ -30,6 +30,9 @@ import org.slf4j.LoggerFactory;
 
 import communicator.common.runtime.GenDriverAPI4Modbus;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 /** 
  * <p>
  * This is a sample implementation of communicator that uses the SmartGridready communication
@@ -53,12 +56,12 @@ import communicator.common.runtime.GenDriverAPI4Modbus;
  * SmartGridready Modbus device and read a value from the device.
  * 
  **/
-public class SampleCommunicator {
+public class BasicSampleCommunicator {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SampleCommunicator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BasicSampleCommunicator.class);
 
-	private static final String PROFILE_CURRENT_AC = "CurrentAC";
-	private static final String XML_BASE_DIR = "../../SGrSpecifications/XMLInstances/ExtInterfaces/";
+	private static final String PROFILE_VOLTAGE_AC = "VoltageAC";
+	private static final String DEVICE_DESCRIPTION_FILE_NAME = "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml";
 	
 	public static void main( String[] argv ) {
 		
@@ -67,8 +70,9 @@ public class SampleCommunicator {
 			// Step 1: 
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
 			//
+			String deviceDescFilePath = getDeviceDescriptionFilePath();
 			DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
-			DeviceFrame sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
+			DeviceFrame sgcpMeter = loader.load( "", deviceDescFilePath);
 			
 			// Step 2: 
 			// Load the suitable device driver to communicate with the device. The example below uses
@@ -84,13 +88,31 @@ public class SampleCommunicator {
 			// Initialise the serial COM port used by the modbus transport service.
 			//
 			mbRTUMock.initTrspService("COM9");
+
+			// Step 2b (Modbus RTU only):
+			// Set the modbus unit identifier.
+			mbRTUMock.setUnitIdentifier((byte) 11);
 				
 			// Step 3:
 			// Instantiate a modbus device. Provide the device description and the device driver
 			// instance to be used for the device.
 			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );
 
-			communicateWithDevice(mbRTUMock, sgcpDevice);
+
+			// Step 4:
+			// Read the values from the device.
+			// - "PROFILE_VOLTAGE_AC" is the name of the functional profile.
+			// - "VoltageL1", "VoltageL2" and "VoltageL3" are the names of the Datapoints that
+			//   report the values corresponding to their names.
+			//
+			// Hint: You can only read values for functional profiles and datapoints that exist
+			// in the device description XML.
+			//
+			float val1 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL1").getFloat32();
+			float val2 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL2").getFloat32();
+			float val3 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL3").getFloat32();
+			String log = String.format("Wago-Meter CurrentAC:  %.2fV,  %.2fV,  %.2fV", val1, val2, val3);
+			LOG.info(log);
 		}
 		catch ( Exception e )
 		{
@@ -98,31 +120,14 @@ public class SampleCommunicator {
 		}									
 	}
 
-	private static void communicateWithDevice(GenDriverAPI4Modbus mbRTUMock, SGrModbusDevice sgcpDevice) {
-		try {
-			
-			// Step 4 (Modbus RTU only):
-			// Set the unit identifier of the device to read out. 
-			mbRTUMock.setUnitIdentifier((byte) 11);
-			
-			// Step 5: 
-			// Read the values from the device. 
-			// - "CurrentAC" is the name of the functional profile.
-			// - "CurrentACL1", "CurrentACL2" ... "CurrentACLN" are the names of the Datapoints that
-			//   report the values corresponding to their names.
-			// 
-			// Hint: You can only read values for functional profiles and datapoints that exist 
-			// in the device description XML.
-			//
-			float val1 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL1").getFloat32();
-			float val2 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL2").getFloat32();
-			float val3 = sgcpDevice.getVal(PROFILE_CURRENT_AC, "CurrentACL3").getFloat32();
-			
-			LOG.info(String.format("Wago-Meter CurrentAC:  %.4fA,  %.4fA,  %.4fA", val1, val2, val3));
-		}
-		catch ( Exception e)
-		{
-			LOG.error( "Error reading value from device. ", e);
+	static String getDeviceDescriptionFilePath() throws FileNotFoundException {
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		URL deviceDesc = classloader.getResource(DEVICE_DESCRIPTION_FILE_NAME);
+		if (deviceDesc != null && deviceDesc.getPath() != null) {
+			return deviceDesc.getPath();
+		} else {
+			throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
 		}
 	}
+
 }

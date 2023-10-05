@@ -318,34 +318,39 @@
             <dataPointListElement>
               <dataPoint>
                 <dataPointName>HPOpState</dataPointName>
-                <dataDirection>R</dataDirection>
+                <dataDirection>RW</dataDirection>
                 <presenceLevel>M</presenceLevel>
                 <dataType>
                   <bitmap>
                     <bitmapEntry>
                       <literal>HP_PUMP_ON</literal>
                       <hexMask>03</hexMask>
-                      <description>Waermepumpe EIN</description>
+                      <description>Waermepumpe ein</description>
                     </bitmapEntry>
                     <bitmapEntry>
                       <literal>HP_IN_HEATING_MODE</literal>
                       <hexMask>1C</hexMask>
+                      <description>Betriebsmodus Heizen</description>
                     </bitmapEntry>
                     <bitmapEntry>
                       <literal>HP_IN_DHW_MODE</literal>
                       <hexMask>20</hexMask>
+                      <description>Betriebsmodus Heisswasser</description>
                     </bitmapEntry>
                     <bitmapEntry>
                       <literal>COMPRESSOR_RUNNING</literal>
                       <hexMask>40</hexMask>
+                      <description>Kompressor läuft</description>
                     </bitmapEntry>
                     <bitmapEntry>
                       <literal>COOLING_MODE_ACTIVE</literal>
                       <hexMask>0100</hexMask>
+                      <description>Betriebsmodus kühlen</description>
                     </bitmapEntry>
                     <bitmapEntry>
                       <literal>IN_DEFROST_MODE</literal>
                       <hexMask>0200</hexMask>
+                      <description>Betriebsmodus Defrost</description>
                     </bitmapEntry>
                   </bitmap>
                 </dataType>
@@ -395,7 +400,7 @@
                   <int16U />
                 </modbusDataType>
                 <address>2501</address>
-                <registerType>InputRegister</registerType>
+                <registerType>HoldRegister</registerType>
                 <numberOfRegisters>1</numberOfRegisters>
               </modbusDataPointConfiguration>
             </dataPointListElement>

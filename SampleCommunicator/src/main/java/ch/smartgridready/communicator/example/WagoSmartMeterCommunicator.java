@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class SampCommunicatorModbusRTU {
+public class WagoSmartMeterCommunicator {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SampCommunicatorModbusRTU.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WagoSmartMeterCommunicator.class);
 
 	private static final String XML_BASE_DIR = "../../SGrSpecifications/XMLInstances/ExtInterfaces/";
 

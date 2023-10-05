@@ -46,8 +46,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
                 <p>The Communicator loads a device driver for the communication interface of the product (e.g. Modbus RTU/TCP, REST...).</p>
                 <p>The communicator reads or sets (analyses and/or controls) the data points.</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td>
-    <td><a href="https://github.com/SmartgridReady/SGrJavaSamples/tree/master/SampleCommunicator">SGrJavaSamples/SampleCommunicator<a></td>
+    <tr><td><b>SGrProject:</b></td></tr>
+    <td><a href="https://github.com/SmartgridReady/SGrJavaSamples/tree/master/SampleCommunicator">SGrJavaSamples/SampleCommunicator</a></td>
     </r>
 </table>
 
@@ -60,8 +60,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
     <tr><td valign="top"><b>Responsibilities:</b></td><td>
                 <p>The Generic Interface is used by the Communicator to communicate with the products in the SGr network.​</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td>
-    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/SchemaDatabase/SGr/Generic">SmartgridReady/SGrSpecifications/SchemaDatabase/SGr/Generic<a></td>
+    <tr><td><b>SGrProject:</b></td></tr>
+    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/SchemaDatabase/SGr/Generic">SmartgridReady/SGrSpecifications/SchemaDatabase/SGr/Generic</a></td>
     </r>
 </table>  
 
@@ -81,8 +81,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
 </p>
                 <p></p> </td></tr>
     <tr><td><b>Library:</b></td><td>commhandler4modbus.jar</td></tr>                                                                                          
-    <tr><td><b>SGrProject:</b></td>
-    <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus<a></td>
+    <tr><td><b>SGrProject:</b></td></tr>
+    <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus</a></td>
     </r>
 </table> 
 
@@ -95,8 +95,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
     <tr><td valign="top"><b>Responsibilities:</b></td><td>
                 <p>Providing general data on the Product.</p>
                 <p>Provide the data necessary for mapping the SGr Generic Interface with the External Interface.</p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td>
-    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/XMLInstances/ExtInterfaces">SmartgridReady/SGrSpecifications/XMLInstances/ExtInterfaces<a></td>
+    <tr><td><b>SGrProject:</b></td></tr>
+    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/XMLInstances/ExtInterfaces">SmartgridReady/SGrSpecifications/XMLInstances/ExtInterfaces</a></td>
     </r>
 </table> 
 
@@ -113,8 +113,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
                 <p></p> </td></tr> 
     <tr><td><b>Library:</b></td>
     <td>easymodbus.jar</td>                            
-    <tr><td><b>SGrProject:</b></td>    
-    <td>für Modbus:<br><a href="https://github.com/SmartgridReady/SGrJavaDrivers/tree/master/EasyModbus">SmartgridReady/SGrJavaDrivers/EasyModbus<a></td>
+    <tr><td><b>SGrProject:</b></td></tr>    
+    <td>für Modbus:<br><a href="https://github.com/SmartgridReady/SGrJavaDrivers/tree/master/EasyModbus">SmartgridReady/SGrJavaDrivers/EasyModbus</a></td>
     </r>
 </table> 
 
@@ -142,13 +142,29 @@ E.g. heat pump, charging station, inverter, battery, electricity meter
 
 <br><br>
 
-## Code description for the SampleCommunicator
+## Description of the Code Samples
+
+The code samples demonstrate how to use the commhandler library with a communicator application.
+These samples use mocked-devices run without any real device: 
+<ul>
+    <li>BasicSampleCommunicator</li>
+    <li>EnumAndBitmapSampleCommunicator</li>
+    <li>AsynchronousSampleCommunicatorTest</li>
+</ul>
+
+This sample runs with a real WAGO SmartMeter device:
+<ul>
+    <li>WagoSmartMeterCommunicator</li>
+</ul>
+
+### BasicSampleCommunicator
 
 Step 1:
 Use the DeviceDescriptionLoader class to load the device description from an XML file.
 <br><br>
-```DeviceDescriptionLoader<SGrModbusDeviceDescriptionType> loader = new DeviceDescriptionLoader<>();```<br>
-```SGrModbusDeviceDescriptionType sgcpMeter = loader.load( XML_BASE_DIR, "SGr_04_0016_xxxx_ABBMeterV0.2.1.xml");```
+```String deviceDescFilePath = getDeviceDescriptionFilePath();```<br>
+```DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();```<br>
+```DeviceFrame sgcpMeter = loader.load( "", deviceDescFilePath);```
 <br><br>
 
 Step2:
@@ -165,28 +181,46 @@ Initialie the serial COM port used by the modbus transport service.
 ```mbRTUMock.initTrspService("COM9");```
 <br><br>
 
+Step 2b (Modbus RTU only): Set the unit identifier of the device to read out. <br>
+```mbRTUMock.setUnitIdentifier((byte) 11);```
+<br><br>
+
 Step 3:
 Instantiate a modbus device. Provide the device description and the device driver instance to be used for the device.<br><br>
 ```SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );```<br> ```try {```
 <br><br>
 
-Step 4 (Modbus RTU only): Set the unit identifier of the device to read out. <br>
-```mbRTUMock.setUnitIdentifier((byte) 11);```
-<br><br>
-
-Step 5: Read the values from the device. 
+Step 4: Read the values from the device. 
 - "CurrentAC" is the name of the functional profile.
 - "CurrentACL1", "CurrentACL2", "CurrentACL3" and "ActiveNetACN" are the names of the Datapoints that report the values corresponding to their names.
 
 <i>Hint: You can only read values for functional profiles and datapoints that exist in the device description XML.</i><br>
-```String val1 = sgcpDevice.getVal("CurrentAC", "CurrentACL1");```<br>
-```String val2 = sgcpDevice.getVal("CurrentAC", "CurrentACL2");```<br>
-```String val3 = sgcpDevice.getVal("CurrentAC", "CurrentACL3");```<br>
-```String val4 = sgcpDevice.getVal("CurrentAC", "ActiveNetACN");```<br><br>
+```String val1 = sgcpDevice.getVal("VoltageAC", "VoltageL1");```<br>
+```String val2 = sgcpDevice.getVal("VoltageAC", "VoltageL2");```<br>
+```String val3 = sgcpDevice.getVal("VoltageAC", "VoltageL3");```<br><br>
 
 The complete sample code can be found on github:<br>
-https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/SampleCommunicator.java
+https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/BasicSampleCommunicator.java
 <br><br>
+
+### EnumAndBitmapSampleCommunicator
+
+Sample code on how to read and write enums and bitmap registers using the commhandler library.<br>
+You find the sample code on github:
+https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/EnumAndBitmapSampleCommunicator.java
+
+### AsynchronousSampleCommunicator
+
+Sample code on how to read multiple devices in parallel using the async features of the commhandler library.
+This sample a JUnit5 test. Use the Junit test runner to run the sample code.
+You find the sample code on github:
+https://github.com/SmartgridReady/SGrJavaSamples/blob/documentation/SampleCommunicator/src/main/java/ch/smartgridready/communicator/example/AsynchronousSampleCommunicatorTest.java
+
+### WagoSmartMeterCommunicator
+
+If you are happy owner of a WAGO Smart-Meter you can read the read values from the real device with
+this sample communicator application.
+
 
 ## Further information / contact information
 
