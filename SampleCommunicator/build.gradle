@@ -19,7 +19,7 @@ repositories {
    	maven {
    	    credentials {
             username = 'ergo-furrer'
-            password = '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'
+            password = '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'
    	    }
    	    url "https://maven.pkg.github.com/SmartgridReady/SGrJavaPackages"   	  
    	}
