@@ -60,8 +60,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
     <tr><td valign="top"><b>Responsibilities:</b></td><td>
                 <p>The Generic Interface is used by the Communicator to communicate with the products in the SGr network.​</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td></tr>
-    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/SchemaDatabase/SGr/Generic">SmartgridReady/SGrSpecifications/SchemaDatabase/SGr/Generic</a></td>
+    <tr><td><b>SGrProject:</b></td>
+    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/SchemaDatabase/SGr/Generic">SmartgridReady/SGrSpecifications/SchemaDatabase/SGr/Generic</a></td></tr>
     </r>
 </table>  
 
@@ -80,9 +80,9 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
 - Sending the commands to the Product through the transport service specified by the Product.
 </p>
                 <p></p> </td></tr>
-    <tr><td><b>Library:</b></td><td>commhandler4modbus.jar</td></tr>                                                                                          
+    <tr><td><b>Library:</b></td><td>commhandler4modbus.jar</td>                                                                                          
     <tr><td><b>SGrProject:</b></td></tr>
-    <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus</a></td>
+    <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus</a></td></tr>
     </r>
 </table> 
 
@@ -95,8 +95,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
     <tr><td valign="top"><b>Responsibilities:</b></td><td>
                 <p>Providing general data on the Product.</p>
                 <p>Provide the data necessary for mapping the SGr Generic Interface with the External Interface.</p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td></tr>
-    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/XMLInstances/ExtInterfaces">SmartgridReady/SGrSpecifications/XMLInstances/ExtInterfaces</a></td>
+    <tr><td><b>SGrProject:</b></td>
+    <td><a href="https://github.com/SmartgridReady/SGrSpecifications/tree/master/XMLInstances/ExtInterfaces">SmartgridReady/SGrSpecifications/XMLInstances/ExtInterfaces</a></td></tr>
     </r>
 </table> 
 
@@ -113,8 +113,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
                 <p></p> </td></tr> 
     <tr><td><b>Library:</b></td>
     <td>easymodbus.jar</td>                            
-    <tr><td><b>SGrProject:</b></td></tr>    
-    <td>für Modbus:<br><a href="https://github.com/SmartgridReady/SGrJavaDrivers/tree/master/EasyModbus">SmartgridReady/SGrJavaDrivers/EasyModbus</a></td>
+    <tr><td><b>SGrProject:</b></td>    
+    <td>für Modbus:<br><a href="https://github.com/SmartgridReady/SGrJavaDrivers/tree/master/EasyModbus">SmartgridReady/SGrJavaDrivers/EasyModbus</a></td></tr>
     </r>
 </table> 
 
