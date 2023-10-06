@@ -46,8 +46,8 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
                 <p>The Communicator loads a device driver for the communication interface of the product (e.g. Modbus RTU/TCP, REST...).</p>
                 <p>The communicator reads or sets (analyses and/or controls) the data points.</p>
                 <p></p> </td></tr>        
-    <tr><td><b>SGrProject:</b></td></tr>
-    <td><a href="https://github.com/SmartgridReady/SGrJavaSamples/tree/master/SampleCommunicator">SGrJavaSamples/SampleCommunicator</a></td>
+    <tr><td><b>SGrProject:</b></td>
+    <td><a href="https://github.com/SmartgridReady/SGrJavaSamples/tree/master/SampleCommunicator">SGrJavaSamples/SampleCommunicator</a></td></tr>
     </r>
 </table>
 
