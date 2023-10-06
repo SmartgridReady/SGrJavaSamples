@@ -81,7 +81,7 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
 </p>
                 <p></p> </td></tr>
     <tr><td><b>Library:</b></td><td>commhandler4modbus.jar</td>                                                                                          
-    <tr><td><b>SGrProject:</b></td></tr>
+    <tr><td><b>SGrProject:</b></td>
     <td><a href="https://github.com/SmartgridReady/SGrJava/tree/master/InterfaceFactory/CommHandler4Modbus">SmartgridReady/SGrJava/InterfaceFactory/CommHandler4Modbus</a></td></tr>
     </r>
 </table> 
