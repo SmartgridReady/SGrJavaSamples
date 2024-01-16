@@ -57,7 +57,7 @@ public class WagoSmartMeterCommunicator {
 		try {	
 			
 			DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
-			DeviceFrame tstMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
+			DeviceFrame tstMeter = loader.load( XML_BASE_DIR, "SGr_02_mmmm_dddd_SwiSBox_Actuator.xml");
 			
 			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
 			mbRTU.initTrspService("COM3", 19200);

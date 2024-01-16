@@ -1,0 +1,38 @@
+[
+  {
+    "startTime":        "2023-11-17T00:00:00+01:00",
+    "endTime":          "2023-11-17T00:15:00+01:00",
+    "tariffName":        "sunlight",
+    "tariff":            15.0
+  },
+  {
+    "startTime":        "2023-11-17T00:00:00+01:00",
+    "endTime":          "2023-11-17T00:15:00+01:00",
+    "tariffName":       "moonlight",
+    "tariff": 12.0
+  },
+  {
+    "startTime":        "2023-11-17T00:15:00+01:00",
+    "endTime":          "2023-11-17T00:30:00+01:00",
+    "tariffName":       "sunlight",
+    "tariff": 17.0
+  },
+  {
+    "startTime":        "2023-11-17T00:15:00+01:00",
+    "endTime":          "2023-11-17T00:30:00+01:00",
+    "tariffName":       "moonlight",
+    "tariff": 14.0
+  },
+  {
+    "startTime":        "2023-11-17T00:15:00+01:00",
+    "endTime":          "2023-11-17T00:30:00+01:00",
+    "tariffName":       "sunlight",
+    "tariff": 16.0
+  },
+  {
+    "startTime":        "2023-11-17T00:30:00+01:00",
+    "endTime":          "2023-11-17T00:45:00+01:00",
+    "tariffName":       "moonlight",
+    "tariff": 13.0
+  }
+]
