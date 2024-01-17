@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,16 +21,15 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 // Maps a received Json value into the required SmartGridready Json output value.
-// Must group by received timestamps and list all tariffs for a given period.
 // The timestamps are converted to a canonical format first and afterwards
 public class JsonMapper
 {
     private static final JmesPath<JsonNode> jmespath = new JacksonRuntime();
 
-    private final Map<String, String> keywordMapTariffOut;
+    private final Map<String, String> keywordMapInput;
 
-    public JsonMapper(Map<String, String> keywordMapTariffOut) {
-        this.keywordMapTariffOut = keywordMapTariffOut;
+    public JsonMapper(Map<String, String> keywordMapInput) {
+        this.keywordMapInput = keywordMapInput;
     }
 
     public static class Key implements Comparable<Key>, Serializable {
@@ -60,15 +60,20 @@ public class JsonMapper
             return o instanceof Key && this.compareTo((Key)o) == 0;
         }
 
+        @Override
+        public int hashCode() {
+            return key().hashCode();
+        }
+
         public static Key copy(Key srcKey) {
             return SerializationUtils.clone(srcKey);
         }
     }
 
-    public static Map<Key, Map<String, String>> mapToFlatList(String jsonFile, Map<String, String> keywordMapTariffOut)
+    public static Map<Key, Map<String, String>> mapToFlatList(String jsonFile, Map<String, String> keywordMapInput)
             throws JsonProcessingException {
 
-        JsonMapper mapper = new JsonMapper(keywordMapTariffOut);
+        JsonMapper mapper = new JsonMapper(keywordMapInput);
 
         ObjectMapper parser = new ObjectMapper();
         JsonNode root = parser.readTree(jsonFile);
@@ -78,22 +83,22 @@ public class JsonMapper
 
     private Map<Key, Map<String, String>> parseJsonTree(JsonNode node, Map<Key, Map<String, String>> parentData, int iteration) {
 
-        Map<Key, Map<String, String>> tariffRecordMap = new TreeMap<>(); // TreeMap to keep the order of element occurrence
+        Map<Key, Map<String, String>> recordMap = new TreeMap<>(); // TreeMap to keep the order of element occurrence
 
         // Get all keywords for the given iteration depth
         Set<Map.Entry<String, String>> keywords = getKeywordsForIteration(iteration);
 
-        if (!keywords.isEmpty()) {
+        if (iteration <= determineRequiredIterations(keywordMapInput)) {
             if (parentData == null) {
-                processChildElements(node, iteration, tariffRecordMap, keywords, 0, null);
+                processChildElements(node, iteration, recordMap, keywords, 0, null);
             } else {
                 int parentIndex = 0;
                 for (Map.Entry<Key, Map<String, String>> parentRec : parentData.entrySet()) {
-                    processChildElements(node, iteration, tariffRecordMap, keywords, parentIndex, parentRec);
+                    processChildElements(node, iteration, recordMap, keywords, parentIndex, parentRec);
                     parentIndex++;
                 }
             }
-            return parseJsonTree(node, tariffRecordMap, ++iteration);
+            return parseJsonTree(node, recordMap, ++iteration);
         } else {
             return parentData;
         }
@@ -101,23 +106,14 @@ public class JsonMapper
 
     private Set<Map.Entry<String, String>> getKeywordsForIteration(int iteration) {
         final int iterationDepth = iteration;
-        Set<Map.Entry<String, String>> keywords = keywordMapTariffOut.entrySet().stream()
+        return keywordMapInput.entrySet().stream()
                 .filter(entry -> StringUtils.countMatches(entry.getValue(), "[*]")==iterationDepth)
                 .collect(Collectors.toSet());
-        return keywords;
     }
 
-    /**
-     *
-     * @param node              The root node to operate on
-     * @param iteration         The iteration step. This is the depth in the Json tree hierarchy, starting with 1.
-     * @param keywords          The keywords define the name of the child element to be added and the path where to read the value from the Json
-     * @param parentIndex       The index of the parent element. Used to build up the Jmes-path with the correct index of the parent element.
-     * @param parentRec         The parent record to retrieve the parent element data.
-     */
     private static void processChildElements(JsonNode node,
                                              int iteration,
-                                             Map<Key, Map<String, String>> tariffRecordMap,
+                                             Map<Key, Map<String, String>> recordMap,
                                              Set<Map.Entry<String, String>> keywords,
                                              int parentIndex,
                                              Map.Entry<Key, Map<String, String>> parentRec) {
@@ -133,21 +129,21 @@ public class JsonMapper
                 key.add(i);
                 if (parentRec == null) {
                     // process the root node.
-                    tariffRecordMap.put(key, new HashMap<>());
+                    recordMap.put(key, new HashMap<>());
                 } else {
                     // process the child nodes, mix-in the values of the parent node.
-                    tariffRecordMap.put(key, new HashMap<>(parentRec.getValue()));
+                    recordMap.put(key, new HashMap<>(parentRec.getValue()));
                 }
 
                 final int iter = iteration;
-                keywords.forEach(kw -> addChildElement(node, tariffRecordMap, key, kw, iter));
+                keywords.forEach(kw -> addChildElement(node, recordMap, key, kw, iter));
             }
         }
     }
 
     private static void addChildElement(
             JsonNode node,
-            Map<Key, Map<String, String>> tariffRecordMap,
+            Map<Key, Map<String, String>> recordMap,
             Key key,
             Map.Entry<String, String> kw,
             int iteration) {
@@ -159,7 +155,7 @@ public class JsonMapper
         }
         Expression<JsonNode> expression = jmespath.compile(pattern);
         JsonNode value = expression.search(node);
-        tariffRecordMap.get(key).put(kw.getKey(), value.toString());
+        recordMap.get(key).put(kw.getKey(), value.toString());
     }
 
     private static int getNoOfElem(JsonNode node,
@@ -175,5 +171,11 @@ public class JsonMapper
         Expression<JsonNode> jmesQuery = jmespath.compile(searchPattern + " | length(@)");
         JsonNode result = jmesQuery.search(node);
         return result.asInt();
+    }
+
+    private static int determineRequiredIterations(Map<String, String> keywordMap) {
+        return keywordMap.values().stream()
+                .map(value -> StringUtils.countMatches(value, "[*]"))
+                .max(Comparator.naturalOrder()).orElse(0);
     }
 }
