@@ -35,13 +35,13 @@ public class JsonMapperTest
     };
 
     @Test
-    public void convertFlatToFlatJson() throws Exception {
+    public void convertToFlatList() throws Exception {
 
         String receivedJson = loadJson("TariffOut.json");
 
         JSonOutputProduct descriptor = createFlatJsonDescriptor();
 
-        Map<Integer, Map<String, String>> tariffRecords = JsonMapper.mapToFlatJson(receivedJson, KEYWORD_MAP_TARIFF_OUT);
+        Map<JsonMapper.Key, Map<String, String>> tariffRecords = JsonMapper.mapToFlatList(receivedJson, KEYWORD_MAP_TARIFF_OUT);
 
         assertEquals(6, tariffRecords.size());
 
