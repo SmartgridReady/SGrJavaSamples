@@ -70,7 +70,7 @@ public class JsonMapper
         }
     }
 
-    public static Map<Key, Map<String, String>> mapToFlatList(String jsonFile, Map<String, String> keywordMapInput)
+    public static Map<Key, Map<String, Object>> mapToFlatList(String jsonFile, Map<String, String> keywordMapInput)
             throws JsonProcessingException {
 
         JsonMapper mapper = new JsonMapper(keywordMapInput);
@@ -81,9 +81,9 @@ public class JsonMapper
         return mapper.parseJsonTree(root, null, 1);
     }
 
-    private Map<Key, Map<String, String>> parseJsonTree(JsonNode node, Map<Key, Map<String, String>> parentData, int iteration) {
+    private Map<Key, Map<String, Object>> parseJsonTree(JsonNode node, Map<Key, Map<String, Object>> parentData, int iteration) {
 
-        Map<Key, Map<String, String>> recordMap = new TreeMap<>(); // TreeMap to keep the order of element occurrence
+        Map<Key, Map<String, Object>> recordMap = new TreeMap<>(); // TreeMap to keep the order of element occurrence
 
         // Get all keywords for the given iteration depth
         Set<Map.Entry<String, String>> keywords = getKeywordsForIteration(iteration);
@@ -93,7 +93,7 @@ public class JsonMapper
                 processChildElements(node, iteration, recordMap, keywords, 0, null);
             } else {
                 int parentIndex = 0;
-                for (Map.Entry<Key, Map<String, String>> parentRec : parentData.entrySet()) {
+                for (Map.Entry<Key, Map<String, Object>> parentRec : parentData.entrySet()) {
                     processChildElements(node, iteration, recordMap, keywords, parentIndex, parentRec);
                     parentIndex++;
                 }
@@ -113,10 +113,10 @@ public class JsonMapper
 
     private static void processChildElements(JsonNode node,
                                              int iteration,
-                                             Map<Key, Map<String, String>> recordMap,
+                                             Map<Key, Map<String, Object>> recordMap,
                                              Set<Map.Entry<String, String>> keywords,
                                              int parentIndex,
-                                             Map.Entry<Key, Map<String, String>> parentRec) {
+                                             Map.Entry<Key, Map<String, Object>> parentRec) {
 
         // Count the number of child records for the given parent record
         Optional<Map.Entry<String, String>> kwOpt = keywords.stream().findFirst();
@@ -143,7 +143,7 @@ public class JsonMapper
 
     private static void addChildElement(
             JsonNode node,
-            Map<Key, Map<String, String>> recordMap,
+            Map<Key, Map<String, Object>> recordMap,
             Key key,
             Map.Entry<String, String> kw,
             int iteration) {
@@ -155,7 +155,12 @@ public class JsonMapper
         }
         Expression<JsonNode> expression = jmespath.compile(pattern);
         JsonNode value = expression.search(node);
-        recordMap.get(key).put(kw.getKey(), value.toString());
+
+        if (value.isTextual()) {
+            recordMap.get(key).put(kw.getKey(), value.asText());
+        } if (value.isFloatingPointNumber()) {
+            recordMap.get(key).put(kw.getKey(), value.asDouble());
+        }
     }
 
     private static int getNoOfElem(JsonNode node,
