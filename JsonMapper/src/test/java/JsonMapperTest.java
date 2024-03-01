@@ -58,10 +58,6 @@ class JsonMapperTest
         KEYWORD_MAP_TARIFF_E_GROUP.put("unit",              "[*].unit");
     }
 
-
-
-
-
     private static  final LinkedHashMap<String, String> KEYWORD_MAP_TARIFF_OUT1 = new LinkedHashMap<>();
     static {
         KEYWORD_MAP_TARIFF_OUT1.put("startTime",  "[*].start_time");
