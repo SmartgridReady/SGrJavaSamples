@@ -2,7 +2,7 @@
 
 SGr-JavaSamples stellt Beispielprojekte zur Verfügung, welche die Anwendung der SGr Communication Handler Library demonstrieren. Ziel ist es eine Testumgebung aufzusetzen, die es ermöglicht, SGr-Komponenten und unterschiedliche 'Products' (Wärmepumpe​, Ladestation​, Wechselrichter​, Batterie​, Stromzähler​ etc.) via SGr-Kommunikationsschnittelle zu verbinden. 
 
-![SGr Architecture Overview](SGr-Architecture-Overview.png "SGr Architecture Overview")
+![SGr Architecture Overview](doc/img/SGr-Architecture-Overview.png "SGr Architecture Overview")
 
 ## Komponenten
 

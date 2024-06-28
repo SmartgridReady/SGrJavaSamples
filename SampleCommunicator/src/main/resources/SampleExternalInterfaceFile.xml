@@ -29,16 +29,13 @@
     <generalRemarks>Sample EI-XML/ls</generalRemarks>
     <levelOfOperation>4</levelOfOperation>
   </deviceInformation>
-  <genericAttributes>
-    <specialQualityRequirement>METAS</specialQualityRequirement>
-    <precisionPercent>2.0</precisionPercent>
-  </genericAttributes>
   <interfaceList>
     <modbusInterface>
       <modbusInterfaceDescription>
         <modbusInterfaceSelection>RTU</modbusInterfaceSelection>
         <modbusRtu>
           <slaveAddr>1</slaveAddr>
+          <portName>COM3</portName>
           <baudRateSelected>9600</baudRateSelected>
           <byteLenSelected>8</byteLenSelected>
           <paritySelected>EVEN</paritySelected>
@@ -90,7 +87,6 @@
               <dataPoint>
                 <dataPointName>VoltageL1</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -112,7 +108,6 @@
               <dataPoint>
                 <dataPointName>VoltageL2</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -134,7 +129,6 @@
               <dataPoint>
                 <dataPointName>VoltageL3</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -232,7 +226,6 @@
               <dataPoint>
                 <dataPointName>HPOpModeCmd</dataPointName>
                 <dataDirection>RW</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <enum>
                     <enumEntry>
@@ -319,7 +312,6 @@
               <dataPoint>
                 <dataPointName>HPOpState</dataPointName>
                 <dataDirection>RW</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <bitmap>
                     <bitmapEntry>
@@ -408,7 +400,6 @@
               <dataPoint>
                 <dataPointName>stiHPOpState</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <bitmap>
                     <bitmapEntry>
@@ -520,7 +511,6 @@
               <dataPoint>
                 <dataPointName>ErrorNrSGr</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <boolean />
                 </dataType>
@@ -556,7 +546,6 @@
               <dataPoint>
                 <dataPointName>OutsideAirTemp</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -571,10 +560,6 @@
                   <language>de</language>
                 </legibleDescription>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>80.0</maxVal>
-                <minVal>-60.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />
@@ -594,7 +579,7 @@
               <dataPoint>
                 <dataPointName>SupplyWaterTemp</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>M</presenceLevel>
+                
                 <dataType>
                   <float64 />
                 </dataType>
@@ -624,7 +609,6 @@
               <dataPoint>
                 <dataPointName>ReturnSupplyWaterTemp</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -639,10 +623,6 @@
                   <language>de</language>
                 </legibleDescription>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>90.0</maxVal>
-                <minVal>0.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />
@@ -662,7 +642,6 @@
               <dataPoint>
                 <dataPointName>SourceTemp</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -727,7 +706,6 @@
               <dataPoint>
                 <dataPointName>SupplyWaterTemp</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -741,10 +719,6 @@
                   <language>de</language>
                 </legibleDescription>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>40.0</maxVal>
-                <minVal>0.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />
@@ -764,7 +738,6 @@
               <dataPoint>
                 <dataPointName>SupplyWaterTempStptFb</dataPointName>
                 <dataDirection>R</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -784,10 +757,6 @@
                   <language>en</language>
                 </programmerHints>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>40.0</maxVal>
-                <minVal>0.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />
@@ -807,7 +776,6 @@
               <dataPoint>
                 <dataPointName>SupplyWaterTempStptComf</dataPointName>
                 <dataDirection>RW</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -821,10 +789,6 @@
                   <language>de</language>
                 </legibleDescription>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>30.0</maxVal>
-                <minVal>5.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />
@@ -844,7 +808,6 @@
               <dataPoint>
                 <dataPointName>SupplyWaterTempStptEco</dataPointName>
                 <dataDirection>RW</dataDirection>
-                <presenceLevel>O</presenceLevel>
                 <dataType>
                   <float64 />
                 </dataType>
@@ -858,10 +821,6 @@
                   <language>de</language>
                 </legibleDescription>
               </dataPoint>
-              <genericAttributes>
-                <maxVal>30.0</maxVal>
-                <minVal>5.0</minVal>
-              </genericAttributes>
               <modbusDataPointConfiguration>
                 <modbusDataType>
                   <int16 />

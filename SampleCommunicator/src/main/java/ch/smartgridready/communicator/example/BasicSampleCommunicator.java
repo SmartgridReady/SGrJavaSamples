@@ -71,7 +71,7 @@ public class BasicSampleCommunicator {
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
 			//
 			String deviceDescFilePath = getDeviceDescriptionFilePath();
-			DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
+			DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
 			DeviceFrame sgcpMeter = loader.load( "", deviceDescFilePath);
 			
 			// Step 2: 
@@ -87,7 +87,7 @@ public class BasicSampleCommunicator {
 			// Step 2a (Modbus RTU only):
 			// Initialise the serial COM port used by the modbus transport service.
 			//
-			mbRTUMock.initTrspService("COM9");
+			mbRTUMock.initTrspService("COM3");
 
 			// Step 2b (Modbus RTU only):
 			// Set the modbus unit identifier.

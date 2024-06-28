@@ -1,10 +1,10 @@
 package ch.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.DeviceFrame;
-import communicator.common.api.BitmapValue;
-import communicator.common.api.EnumRecord;
-import communicator.common.api.EnumValue;
-import communicator.common.api.Value;
+import communicator.common.api.values.BitmapValue;
+import communicator.common.api.values.EnumRecord;
+import communicator.common.api.values.EnumValue;
+import communicator.common.api.values.Value;
 import communicator.common.helper.DeviceDescriptionLoader;
 import communicator.common.runtime.GenDriverAPI4Modbus;
 import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
@@ -38,7 +38,7 @@ public class EnumAndBitmapSampleCommunicator {
             // Prepare the communication handler (SGrModbusDevice) for usage:
             // See 'BasicSampleCommunicator' for details.
             String deviceDescFilePath = getDeviceDescriptionFilePath();
-            DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
+            DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
             DeviceFrame sgcpMeter = loader.load("", deviceDescFilePath);
             GenDriverAPI4Modbus mbRTUMock = createMockModbusDriver();
             mbRTUMock.initTrspService("COM9");

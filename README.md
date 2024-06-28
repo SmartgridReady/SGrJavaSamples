@@ -34,7 +34,7 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
 
 ## Architecture
 
-![SGr Architecture Overview](SGr-Architecture-Overview.png "SGr Architecture Overview")
+![SGr Architecture Overview](doc/img/SGr-Architecture-Overview.png "SGr Architecture Overview")
 
 
 ### Component: Communicator

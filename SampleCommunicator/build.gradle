@@ -28,24 +28,25 @@ sourceSets
 }   
 	
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     
 	withSourcesJar()
 }
 
 dependencies {
 
-	implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '1.0.1') {
+	implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '1.1.0') {
         exclude group: 'SGrJava.InterfaceFactory', module: 'emfEI4Modbus'
     }
 
-	implementation group: 'ch.smartgridready', name: 'easymodbus', version: '1.0.0'
-    implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '1.0.0'
+	implementation group: 'ch.smartgridready', name: 'easymodbus', version: '1.1.0'
+    implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '1.1.0'
     
     // Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.18.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.23.1'
+
 
     // Reactive Java
     implementation group: 'io.reactivex.rxjava3', name: 'rxjava', version: '3.1.5'
