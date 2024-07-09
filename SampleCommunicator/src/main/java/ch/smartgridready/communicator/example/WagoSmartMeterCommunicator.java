@@ -1,5 +1,5 @@
 /**
-*Copyright(c) 2022 Verein SmartGridready Switzerland
+*Copyright(c) 2022-2024 Verein SmartGridready Switzerland
 This Open Source Software is BSD 3 clause licensed:
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
@@ -17,7 +17,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 This Module references automatically generated code, generated from SmartGridready Modbus XML Schema definitions
 check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smartgridready.ch/ns/SGr/V0/
 
-author: IBT/cb
+author: IBT/cb, FHNW/mkr
 */
 
 package ch.smartgridready.communicator.example;
@@ -25,12 +25,26 @@ package ch.smartgridready.communicator.example;
 import com.smartgridready.ns.v0.DeviceFrame;
 
 import communicator.common.helper.DeviceDescriptionLoader;
+import communicator.common.runtime.DataBits;
+import communicator.common.runtime.Parity;
+import communicator.common.runtime.StopBits;
 import communicator.modbus.impl.SGrModbusDevice;
 import de.re.easymodbus.adapter.GenDriverAPI4ModbusRTU;
+
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * This class provides an example on how to communicate with a WAGO smart meter
+ * over Modbus RTU (RS-485), using the current SmartGridready commhandler library.
+ * <br>
+ * The device is instantiated the old fashioned way, without using the device builder.
+ * <br>
+ * The program requires an actual serial port and an attached device.
+ */
 public class WagoSmartMeterCommunicator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WagoSmartMeterCommunicator.class);
@@ -45,30 +59,40 @@ public class WagoSmartMeterCommunicator {
 	private static final String PROFILE_ACTIVE_POWER_AC = "ActivePowerAC";
 	private static final String PROFILE_REACTIVE_POWER_AC = "ReactivePowerAC";
 	private static final String PROFILE_APPARENT_POWER_AC = "ApparentPowerAC";
-	private static final String PROFILE_ACTIVE_ENERGY_BALANCE_AC = "ActiveEnerBalanceAC";
-	private static final String PROFILE_REACTIVE_ENERGY_BALANCE_AC = "ReactiveEnerBalanceAC";
+	private static final String PROFILE_ACTIVE_ENERGY_BALANCE_AC = "ActiveEnergyBalanceAC";
+	private static final String PROFILE_REACTIVE_ENERGY_BALANCE_AC = "ReactiveEnergyBalanceAC";
 	private static final String PROFILE_POWER_QUADRANT = "PowerQuadrant";
 	private static final String PROFILE_CURRENT_DIRECTION = "CurrentDirection";
 
+	private static final String DEVICE_DESCRIPTION_FILE_NAME = "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml";
+	private static final String SERIAL_PORT_NAME = "COM3";
 	
-	public static void main( String[] argv ) {
+	public static void main(String[] argv) {
 
-		try {	
-			
+		try {
+			// configuration placeholders to be replaced in EID
+			Properties configProperties = new Properties();
+			configProperties.setProperty("port_name", SERIAL_PORT_NAME);
+
+			// load device description from EID
 			DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
-			DeviceFrame tstMeter = loader.load( XML_BASE_DIR, "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml");
-			
-			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
-			mbRTU.initTrspService("COM3", 19200);
-			
-			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU );
+			DeviceFrame tstMeter = loader.load(XML_BASE_DIR, DEVICE_DESCRIPTION_FILE_NAME, configProperties);
 
+			// initialize transport
+			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
+			mbRTU.initTrspService(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
+			
+			// create device instance
+			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU);
+
+			// run device tests
 			testDevice(mbRTU, devWagoMeter);
-		}
-		catch ( Exception e )
-		{
-			LOG.error( "Error loading device description.", e);
-		}									
+
+			// close transport
+			mbRTU.disconnect();
+		} catch (Exception e) {
+			LOG.error("Error loading device description.", e);
+		}							
 	}
 
 	private static void testDevice(GenDriverAPI4ModbusRTU mbRTU, SGrModbusDevice devWagoMeter) {
@@ -80,12 +104,10 @@ public class WagoSmartMeterCommunicator {
 		String sVal1;
 		float fVal2;
 		String sVal2;
+
 		try {
-			// set device address of devWagoMeter
-
-			mbRTU.setUnitIdentifier((byte) 1);
-
 			LOG.info("\nTesting WAGO Meter");
+
 			fVal1 = devWagoMeter.getVal(PROFILE_VOLTAGE_AC, "VoltageL1").getFloat32();
 			fVal2 = devWagoMeter.getVal(PROFILE_VOLTAGE_AC, "VoltageL2").getFloat32();
 			fVal3 = devWagoMeter.getVal(PROFILE_VOLTAGE_AC, "VoltageL3").getFloat32();

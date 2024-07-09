@@ -11,52 +11,57 @@ plugins {
 }
 
 repositories {
-   	mavenCentral()
+    mavenCentral()
 //  Uncomment to use commhandler from local Maven repository
-//   	mavenLocal()
+//    mavenLocal()
 
 //  Uncomment to use commhandler from GitHub Maven repository
-   	maven {
-   	    url "https://nexus.library.smartgridready.ch/repository/maven-releases/"
-   	}
+    maven {
+        url "https://nexus.library.smartgridready.ch/repository/maven-releases/"
+    }
 }
 
-sourceSets 
+sourceSets
 {
-	main.java.srcDirs = ['src/main/java' ]
-	main.resources.srcDirs = ['src/main/resources' ]
-}   
-	
+    main.java.srcDirs = ['src/main/java' ]
+    main.resources.srcDirs = ['src/main/resources' ]
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-    
-	withSourcesJar()
+
+    withSourcesJar()
 }
 
 dependencies {
 
-	implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '1.1.0') {
+    // SGr dependencies
+    implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '1.1.0') {
         exclude group: 'SGrJava.InterfaceFactory', module: 'emfEI4Modbus'
     }
 
-	implementation group: 'ch.smartgridready', name: 'easymodbus', version: '1.1.0'
+    implementation group: 'ch.smartgridready', name: 'easymodbus', version: '1.1.0'
     implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '1.1.0'
-    
-    // Logging
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.23.1'
 
+    // Logging
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.10'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.23.1'
 
     // Reactive Java
     implementation group: 'io.reactivex.rxjava3', name: 'rxjava', version: '3.1.5'
 
     // Use JUnit test framework
-    implementation  group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
-    runtimeOnly     group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
+    implementation  group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.2'
+    runtimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.2'
 
-    implementation group: 'org.mockito', name: 'mockito-core', version: '3.10.0'
-    implementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.10.0'
-    implementation group: 'org.mockito', name: 'mockito-inline', version: '3.10.0'
+    implementation group: 'org.mockito', name: 'mockito-core', version: '5.12.0'
+    implementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.12.0'
+    implementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
+
     implementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
+}
+
+test {
+    useJUnitPlatform() // needed to run JUnit 5 test with gradle
 }

@@ -50,11 +50,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(value = MockitoExtension.class)
 public class AsynchronousSampleCommunicatorTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AsynchronousSampleCommunicatorTest.class);
+
     private static final String DEVICE_ERROR = "DEVICE ERROR";
 
-    private static final Logger LOG = LoggerFactory.getLogger(AsynchronousSampleCommunicatorTest.class);
     @Mock
     SGrModbusDevice wagoModbusDevice;
+
     @Mock
     SGrRestApiDevice clemapRestApiDevice1;
 
@@ -63,6 +65,7 @@ public class AsynchronousSampleCommunicatorTest {
 
     @Mock
     SGrModbusDevice garoModbusDeviceA;
+
     @Mock
     SGrModbusDevice garoModbusDeviceB;
 
@@ -73,7 +76,7 @@ public class AsynchronousSampleCommunicatorTest {
     @Test
     void buildAndRunDataStructure() throws Exception {
         initStubs();
-        doBuildAndRunDatstructureTest();
+        doBuildAndRunDatastructureTest();
     }
 
     /**
@@ -83,10 +86,10 @@ public class AsynchronousSampleCommunicatorTest {
     @Test
     void buildAndRunDataStructureWithException() throws Exception {
         initStubsWithException();
-        doBuildAndRunDatstructureTest();
+        doBuildAndRunDatastructureTest();
     }
 
-    private void doBuildAndRunDatstructureTest() {
+    private void doBuildAndRunDatastructureTest() {
 
         // 1. Setup READ tasks
         // To set up a read task for a device use the ReadExec<Value> class. The ReadExec wraps a commhandler getVal() call

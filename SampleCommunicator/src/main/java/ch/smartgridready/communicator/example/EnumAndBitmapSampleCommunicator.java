@@ -6,7 +6,10 @@ import communicator.common.api.values.EnumRecord;
 import communicator.common.api.values.EnumValue;
 import communicator.common.api.values.Value;
 import communicator.common.helper.DeviceDescriptionLoader;
+import communicator.common.runtime.DataBits;
 import communicator.common.runtime.GenDriverAPI4Modbus;
+import communicator.common.runtime.Parity;
+import communicator.common.runtime.StopBits;
 import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
 import communicator.modbus.impl.SGrModbusDevice;
 import org.slf4j.Logger;
@@ -17,33 +20,40 @@ import java.net.URL;
 import java.util.Map;
 
 /**
- * This class provides examples on how to handle enumerations and bitmaps with the
- * SmartgridReady commhandler library.
+ * This class provides examples on how to handle enumerations and bitmaps,
+ * using the current SmartGridready commhandler library.
  * <br>
  * The program uses a mocked modbus driver and can be run without an attached device/product.
+ * All configuration parameters of the EID are hard-coded, therefore no configuration properties need to be set.
  */
 public class EnumAndBitmapSampleCommunicator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EnumAndBitmapSampleCommunicator.class);
 
     private static final String HEAT_PUMP_BASE_PROFILE = "HeatPumpBase";
     private static final String HEAT_PUMP_OP_CMD = "HPOpModeCmd";
     private static final String HEAT_PUMP_OP_STATE = "HPOpState";
 
-    private static final Logger LOG = LoggerFactory.getLogger(EnumAndBitmapSampleCommunicator.class);
     private static final String DEVICE_DESCRIPTION_FILE_NAME = "SampleExternalInterfaceFile.xml";
+    private static final String SERIAL_PORT_NAME = "COM3";
 
     public static void main(String[] argv) {
 
         try {
-
             // Prepare the communication handler (SGrModbusDevice) for usage:
             // See 'BasicSampleCommunicator' for details.
+
+            // load device description
             String deviceDescFilePath = getDeviceDescriptionFilePath();
             DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
             DeviceFrame sgcpMeter = loader.load("", deviceDescFilePath);
+
+            // initialize transport
             GenDriverAPI4Modbus mbRTUMock = createMockModbusDriver();
-            mbRTUMock.initTrspService("COM9");
-            mbRTUMock.setUnitIdentifier((byte) 11);
-            SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );
+            mbRTUMock.initTrspService(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
+
+            // create device instance
+            SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock);
 
             // Now we can write set status commands using enum and bitmap values.
 
@@ -56,7 +66,6 @@ public class EnumAndBitmapSampleCommunicator {
             // It is also possible to set the value as an ordinal.
             sgcpDevice.setVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD, EnumValue.of(5));
             LOG.info("Did set HPOpModeCmd to 'WP_DOM_WATER_OP'");
-
 
             // To read back an enum value use getVal(...).getEnum() which returns an enum record.
             EnumRecord opState = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD).getEnum();
@@ -93,6 +102,8 @@ public class EnumAndBitmapSampleCommunicator {
             LOG.info("OP-State BitmapValue.getString() = {}", bitmapValue.getString());
             LOG.info("OP-State BitmapValue.toString() = {}", bitmapValue);
 
+            // close transport
+            mbRTUMock.disconnect();
         } catch (Exception e) {
             LOG.error("Error running EnumAndBitmapSampleCommunicator: {}", e.getMessage());
         }
