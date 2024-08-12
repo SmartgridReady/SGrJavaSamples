@@ -27,7 +27,7 @@ jobs:
 
     - name: Build SGrJavaSamples
       run: |
-        cd ./SGrJavaSamples
+        cd ./SampleCommunicator
         chmod +x gradlew
         ./gradlew build
 
