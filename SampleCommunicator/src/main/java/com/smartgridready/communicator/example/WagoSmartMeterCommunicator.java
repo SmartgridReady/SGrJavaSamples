@@ -20,15 +20,15 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 author: IBT/cb, FHNW/mkr
 */
 
-package ch.smartgridready.communicator.example;
+package com.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.DeviceFrame;
+import com.smartgridready.driver.api.modbus.DataBits;
+import com.smartgridready.driver.api.modbus.Parity;
+import com.smartgridready.driver.api.modbus.StopBits;
+import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
+import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
 
-import communicator.common.helper.DeviceDescriptionLoader;
-import communicator.common.runtime.DataBits;
-import communicator.common.runtime.Parity;
-import communicator.common.runtime.StopBits;
-import communicator.modbus.impl.SGrModbusDevice;
 import de.re.easymodbus.adapter.GenDriverAPI4ModbusRTU;
 
 import java.util.Properties;

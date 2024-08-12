@@ -1,16 +1,15 @@
-package ch.smartgridready.communicator.example.helper;
+package com.smartgridready.communicator.example.helper;
 
 import com.smartgridready.ns.v0.ModbusInterfaceDescription;
-
-import communicator.common.runtime.GenDriverAPI4Modbus;
-import communicator.common.runtime.GenDriverException;
-import communicator.common.runtime.GenDriverModbusException;
-import communicator.common.runtime.GenDriverSocketException;
-import communicator.modbus.api.ModbusGatewayFactory;
-import communicator.modbus.api.GenDriverAPI4ModbusConnectable;
-import communicator.modbus.api.ModbusGateway;
-import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.modbus.helper.ModbusUtil;
+import com.smartgridready.driver.api.common.GenDriverException;
+import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
+import com.smartgridready.driver.api.modbus.GenDriverModbusException;
+import com.smartgridready.driver.api.modbus.GenDriverSocketException;
+import com.smartgridready.driver.api.modbus.GenDriverAPI4ModbusConnectable;
+import com.smartgridready.communicator.modbus.api.ModbusGatewayFactory;
+import com.smartgridready.communicator.modbus.api.ModbusGateway;
+import com.smartgridready.communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
+import com.smartgridready.communicator.modbus.helper.ModbusUtil;
 
 // copied from SGrJava due to inacessible classes
 public class MockModbusGatewayFactory implements ModbusGatewayFactory {

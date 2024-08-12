@@ -1,17 +1,18 @@
-package ch.smartgridready.communicator.example;
+package com.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.DeviceFrame;
-import communicator.common.api.values.BitmapValue;
-import communicator.common.api.values.EnumRecord;
-import communicator.common.api.values.EnumValue;
-import communicator.common.api.values.Value;
-import communicator.common.helper.DeviceDescriptionLoader;
-import communicator.common.runtime.DataBits;
-import communicator.common.runtime.GenDriverAPI4Modbus;
-import communicator.common.runtime.Parity;
-import communicator.common.runtime.StopBits;
-import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.modbus.impl.SGrModbusDevice;
+import com.smartgridready.driver.api.modbus.DataBits;
+import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
+import com.smartgridready.driver.api.modbus.Parity;
+import com.smartgridready.driver.api.modbus.StopBits;
+import com.smartgridready.communicator.common.api.values.BitmapValue;
+import com.smartgridready.communicator.common.api.values.EnumRecord;
+import com.smartgridready.communicator.common.api.values.EnumValue;
+import com.smartgridready.communicator.common.api.values.Value;
+import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
+import com.smartgridready.communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
+import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -19,22 +19,19 @@ This Module includes automatically generated code, generated from SmartGridready
 check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smartgridready.ch/ns/SGr/V0/
 
 */
-package ch.smartgridready.communicator.example;
+package com.smartgridready.communicator.example;
 
-import com.smartgridready.ns.v0.DeviceFrame;
-import communicator.common.helper.DeviceDescriptionLoader;
-import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.modbus.impl.SGrModbusDevice;
+import com.smartgridready.communicator.example.helper.MockModbusGatewayFactory;
+import com.smartgridready.communicator.common.api.GenDeviceApi;
+import com.smartgridready.communicator.common.api.SGrDeviceBuilder;
+import com.smartgridready.communicator.modbus.api.ModbusGatewayFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import communicator.common.runtime.DataBits;
-import communicator.common.runtime.GenDriverAPI4Modbus;
-import communicator.common.runtime.Parity;
-import communicator.common.runtime.StopBits;
-
 import java.io.FileNotFoundException;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /** 
@@ -53,18 +50,20 @@ import java.util.Properties;
  * 		<li>Modbus TCP</li>
  * 		<li>http / REST Swagger</li>
  * </ul>
- * The communicator is responsible instantiate/load the suitable driver for the attached 
- * devices/products.  
+ * The communicator is responsible of loading the appropriate descriptions and parameters of the 
+ * attached devices/products.  
  * <p>
  * The example shows the basic steps to set up the communicator to talk to a simple 
  * SmartGridready Modbus device and read a value from the device.
  * <p>
- * Note that this example uses the classic method to create device instances, which is deprecated.
+ * The example also uses the recommended <b>new</b> SGrDeviceBuilder method.
  * 
  **/
-public class BasicSampleCommunicatorClassic {
+public class BasicSampleCommunicator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BasicSampleCommunicator.class);
+
+	private static final ModbusGatewayFactory mockModbusFactory = new MockModbusGatewayFactory();
 
 	private static final String PROFILE_VOLTAGE_AC = "VoltageAC";
 	private static final String DEVICE_DESCRIPTION_FILE_NAME = "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml";
@@ -74,43 +73,40 @@ public class BasicSampleCommunicatorClassic {
 		
 		try {
 			// Step 1: 
-			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
+			// Use the SGrDeviceBuilder class to load the device description (EID) from
+			// an XML file, input stream or text content.
 			// Use properties to replace configuration placeholders in EID.
+			// Create the SGr device instance by calling build().
+			//
+			// This example uses a mocked Modbus driver factory to create the driver instance.
+			// You may change the factory implementation or just use the default, in order to
+			// create actual Modbus devices with serial or TCP connection.
 			//
 			Properties configProperties = new Properties();
 			configProperties.setProperty("port_name", SERIAL_PORT_NAME);
-			String deviceDescFilePath = getDeviceDescriptionFilePath();
-			DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
-			DeviceFrame sgcpMeter = loader.load( "", deviceDescFilePath);
-			
-			// Step 2: 
-			// Load the suitable device driver to communicate with the device. The example below uses
-			// mocked driver for modbus RTU.
-			//
-			// Change the driver to the real driver, suitable for your device. For example:
-			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP()
-			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU()
-			//
-			GenDriverAPI4Modbus mbRTUMock = new GenDriverAPI4ModbusRTUMock();
-			
-			// Step 2 (Modbus RTU only):
-			// Initialise the serial COM port used by the modbus transport service.
-			//
-			mbRTUMock.initTrspService(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
-				
-			// Step 3:
-			// Instantiate a modbus device. Provide the device description and the device driver
-			// instance to be used for the device.
-			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );
 
-			// Step 4:
+			GenDeviceApi sgcpDevice = new SGrDeviceBuilder()
+				.useModbusGatewayFactory(mockModbusFactory)
+				.eid(getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+				.properties(configProperties)
+				.build();
+
+			// Step 2: 
+			// Connect the device instance. Initializes the attached transport.
+			// In case of Modbus RTU this initializes the COM port.
+			// In case of Modbus TCP this initializes the TCP connection.
+			// In case of messaging this connects to the MQTT broker.
+			//
+			sgcpDevice.connect();
+
+			// Step 3:
 			// Read the values from the device.
 			// - "PROFILE_VOLTAGE_AC" is the name of the functional profile.
 			// - "VoltageL1", "VoltageL2" and "VoltageL3" are the names of the Datapoints that
 			//   report the values corresponding to their names.
 			//
 			// Hint: You can only read values for functional profiles and datapoints that exist
-			// in the device description XML.
+			// in the device description (EID).
 			//
 			float val1 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL1").getFloat32();
 			float val2 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL2").getFloat32();
@@ -118,22 +114,22 @@ public class BasicSampleCommunicatorClassic {
 			String log = String.format("Wago-Meter CurrentAC:  %.2fV,  %.2fV,  %.2fV", val1, val2, val3);
 			LOG.info(log);
 
-			// Step 5:
-			// Close transport when no longer needed.
+			// Step 4:
+			// Disconnect from device instance. Closes the attached transport.
 			//
-			mbRTUMock.disconnect();
+			sgcpDevice.disconnect();
 		} catch (Exception e) {
 			LOG.error("Error loading device description. ", e);
 		}									
 	}
 
-	private static String getDeviceDescriptionFilePath() throws FileNotFoundException {
+	private static InputStream getDeviceDescriptionFile(String fileName) throws IOException, FileNotFoundException {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		URL deviceDesc = classloader.getResource(DEVICE_DESCRIPTION_FILE_NAME);
-		if (deviceDesc != null && deviceDesc.getPath() != null) {
-			return deviceDesc.getPath();
-		} else {
-			throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
+		InputStream istr = classloader.getResourceAsStream(fileName);
+		if (istr != null) {
+			return istr;
 		}
+
+		throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
 	}
 }

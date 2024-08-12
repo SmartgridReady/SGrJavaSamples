@@ -11,13 +11,14 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
-//  Uncomment to use commhandler from local Maven repository
-//    mavenLocal()
 
-//  Uncomment to use commhandler from GitHub Maven repository
     maven {
         url "https://nexus.library.smartgridready.ch/repository/maven-releases/"
+    }
+    maven {
+        url "https://nexus.library.smartgridready.ch/repository/maven-snapshots/"
     }
 }
 
@@ -37,12 +38,10 @@ java {
 dependencies {
 
     // SGr dependencies
-    implementation (group: 'ch.smartgridready', name: 'commhandler4modbus', version: '1.1.0') {
-        exclude group: 'SGrJava.InterfaceFactory', module: 'emfEI4Modbus'
-    }
-
-    implementation group: 'ch.smartgridready', name: 'easymodbus', version: '1.1.0'
-    implementation group: 'ch.smartgridready', name: 'sgr-driver-api', version: '1.1.0'
+    implementation group: 'com.smartgridready', name: 'sgr-specification', version: '1.1.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'sgr-driver-api', version: '1.1.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'sgr-commhandler', version: '1.1.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'easymodbus', version: '1.1.0-SNAPSHOT'
 
     // Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.10'
