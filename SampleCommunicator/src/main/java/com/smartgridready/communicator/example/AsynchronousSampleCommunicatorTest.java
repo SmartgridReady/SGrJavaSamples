@@ -1,22 +1,23 @@
-package ch.smartgridready.communicator.example;
+package com.smartgridready.communicator.example;
 
-import communicator.async.process.Parallel;
-import communicator.async.process.Processor;
-import communicator.async.process.ReadExec;
-import communicator.async.process.Sequence;
-import communicator.async.process.WriteExec;
-import communicator.common.api.Float32Value;
-import communicator.common.api.Float64Value;
-import communicator.common.api.StringValue;
-import communicator.common.api.Value;
-import communicator.common.runtime.GenDriverException;
-import communicator.common.runtime.GenDriverModbusException;
-import communicator.common.runtime.GenDriverSocketException;
-import communicator.modbus.impl.SGrModbusDevice;
-import communicator.rest.exception.RestApiAuthenticationException;
-import communicator.rest.exception.RestApiResponseParseException;
-import communicator.rest.exception.RestApiServiceCallException;
-import communicator.rest.impl.SGrRestApiDevice;
+import com.smartgridready.driver.api.common.GenDriverException;
+import com.smartgridready.driver.api.modbus.GenDriverModbusException;
+import com.smartgridready.driver.api.modbus.GenDriverSocketException;
+import com.smartgridready.communicator.async.process.Parallel;
+import com.smartgridready.communicator.async.process.Processor;
+import com.smartgridready.communicator.async.process.ReadExec;
+import com.smartgridready.communicator.async.process.Sequence;
+import com.smartgridready.communicator.async.process.WriteExec;
+import com.smartgridready.communicator.common.api.values.Float32Value;
+import com.smartgridready.communicator.common.api.values.Float64Value;
+import com.smartgridready.communicator.common.api.values.StringValue;
+import com.smartgridready.communicator.common.api.values.Value;
+import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
+import com.smartgridready.communicator.rest.exception.RestApiAuthenticationException;
+import com.smartgridready.communicator.rest.exception.RestApiResponseParseException;
+import com.smartgridready.communicator.rest.exception.RestApiServiceCallException;
+import com.smartgridready.communicator.rest.impl.SGrRestApiDevice;
+
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,11 +51,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(value = MockitoExtension.class)
 public class AsynchronousSampleCommunicatorTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AsynchronousSampleCommunicatorTest.class);
+
     private static final String DEVICE_ERROR = "DEVICE ERROR";
 
-    private static final Logger LOG = LoggerFactory.getLogger(AsynchronousSampleCommunicatorTest.class);
     @Mock
     SGrModbusDevice wagoModbusDevice;
+
     @Mock
     SGrRestApiDevice clemapRestApiDevice1;
 
@@ -63,6 +66,7 @@ public class AsynchronousSampleCommunicatorTest {
 
     @Mock
     SGrModbusDevice garoModbusDeviceA;
+
     @Mock
     SGrModbusDevice garoModbusDeviceB;
 
@@ -73,7 +77,7 @@ public class AsynchronousSampleCommunicatorTest {
     @Test
     void buildAndRunDataStructure() throws Exception {
         initStubs();
-        doBuildAndRunDatstructureTest();
+        doBuildAndRunDatastructureTest();
     }
 
     /**
@@ -83,10 +87,10 @@ public class AsynchronousSampleCommunicatorTest {
     @Test
     void buildAndRunDataStructureWithException() throws Exception {
         initStubsWithException();
-        doBuildAndRunDatstructureTest();
+        doBuildAndRunDatastructureTest();
     }
 
-    private void doBuildAndRunDatstructureTest() {
+    private void doBuildAndRunDatastructureTest() {
 
         // 1. Setup READ tasks
         // To set up a read task for a device use the ReadExec<Value> class. The ReadExec wraps a commhandler getVal() call

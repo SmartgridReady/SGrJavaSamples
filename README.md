@@ -13,8 +13,8 @@ SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Com
 ## Installation
 
 ### Requirements / Prerequisites
-- Gradle version >= 7.3.3. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
-- Java JDK version >= Java 1.8
+- Gradle version >= 8.7. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
+- Java JDK version >= Java 11
 
 ### Clone
 - Create a new folder for the project (eg. 'SmartGridCommunicator').
@@ -34,7 +34,7 @@ Rem: The folder [your-local-project-folder]/SGrSpecifications/XMLInstances/ExtIn
 
 ## Architecture
 
-![SGr Architecture Overview](SGr-Architecture-Overview.png "SGr Architecture Overview")
+![SGr Architecture Overview](doc/img/SGr-Architecture-Overview.png "SGr Architecture Overview")
 
 
 ### Component: Communicator

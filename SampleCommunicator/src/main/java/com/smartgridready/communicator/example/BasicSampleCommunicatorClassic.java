@@ -19,19 +19,26 @@ This Module includes automatically generated code, generated from SmartGridready
 check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smartgridready.ch/ns/SGr/V0/
 
 */
-package ch.smartgridready.communicator.example;
+package com.smartgridready.communicator.example;
 
 import com.smartgridready.ns.v0.DeviceFrame;
-import communicator.common.helper.DeviceDescriptionLoader;
-import communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
-import communicator.modbus.impl.SGrModbusDevice;
+
+import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
+import com.smartgridready.driver.api.modbus.DataBits;
+import com.smartgridready.driver.api.modbus.Parity;
+import com.smartgridready.driver.api.modbus.StopBits;
+import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
+import com.smartgridready.communicator.modbus.helper.GenDriverAPI4ModbusRTUMock;
+import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import communicator.common.runtime.GenDriverAPI4Modbus;
+
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Properties;
 
 /** 
  * <p>
@@ -44,34 +51,39 @@ import java.net.URL;
  * loaded from a device description XML file.
  * <p>
  * There are several communication protocols/technologies available to communicate with the device:
- * <ul>  
+ * <ul>
  * 		<li>Modbus RTU</li>
  * 		<li>Modbus TCP</li>
  * 		<li>http / REST Swagger</li>
- * </ul> 
+ * </ul>
  * The communicator is responsible instantiate/load the suitable driver for the attached 
  * devices/products.  
  * <p>
- * The sample shows the basic steps to set up the communicator to talk to a simple 
+ * The example shows the basic steps to set up the communicator to talk to a simple 
  * SmartGridready Modbus device and read a value from the device.
+ * <p>
+ * Note that this example uses the classic method to create device instances, which is deprecated.
  * 
  **/
-public class BasicSampleCommunicator {
+public class BasicSampleCommunicatorClassic {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BasicSampleCommunicator.class);
 
 	private static final String PROFILE_VOLTAGE_AC = "VoltageAC";
 	private static final String DEVICE_DESCRIPTION_FILE_NAME = "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml";
-	
-	public static void main( String[] argv ) {
+	private static final String SERIAL_PORT_NAME = "COM3";
+
+	public static void main(String[] argv) {
 		
-		try {	
-			 
+		try {
 			// Step 1: 
 			// Use the DeviceDescriptionLoader class to Load the device description from an XML file.
+			// Use properties to replace configuration placeholders in EID.
 			//
+			Properties configProperties = new Properties();
+			configProperties.setProperty("port_name", SERIAL_PORT_NAME);
 			String deviceDescFilePath = getDeviceDescriptionFilePath();
-			DeviceDescriptionLoader<DeviceFrame> loader = new DeviceDescriptionLoader<>();
+			DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
 			DeviceFrame sgcpMeter = loader.load( "", deviceDescFilePath);
 			
 			// Step 2: 
@@ -84,20 +96,15 @@ public class BasicSampleCommunicator {
 			//
 			GenDriverAPI4Modbus mbRTUMock = new GenDriverAPI4ModbusRTUMock();
 			
-			// Step 2a (Modbus RTU only):
+			// Step 2 (Modbus RTU only):
 			// Initialise the serial COM port used by the modbus transport service.
 			//
-			mbRTUMock.initTrspService("COM9");
-
-			// Step 2b (Modbus RTU only):
-			// Set the modbus unit identifier.
-			mbRTUMock.setUnitIdentifier((byte) 11);
+			mbRTUMock.initTrspService(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
 				
 			// Step 3:
 			// Instantiate a modbus device. Provide the device description and the device driver
 			// instance to be used for the device.
 			SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock );
-
 
 			// Step 4:
 			// Read the values from the device.
@@ -113,14 +120,17 @@ public class BasicSampleCommunicator {
 			float val3 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL3").getFloat32();
 			String log = String.format("Wago-Meter CurrentAC:  %.2fV,  %.2fV,  %.2fV", val1, val2, val3);
 			LOG.info(log);
-		}
-		catch ( Exception e )
-		{
-			LOG.error( "Error loading device description. ", e);
+
+			// Step 5:
+			// Close transport when no longer needed.
+			//
+			mbRTUMock.disconnect();
+		} catch (Exception e) {
+			LOG.error("Error loading device description. ", e);
 		}									
 	}
 
-	static String getDeviceDescriptionFilePath() throws FileNotFoundException {
+	private static String getDeviceDescriptionFilePath() throws FileNotFoundException {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		URL deviceDesc = classloader.getResource(DEVICE_DESCRIPTION_FILE_NAME);
 		if (deviceDesc != null && deviceDesc.getPath() != null) {
@@ -129,5 +139,4 @@ public class BasicSampleCommunicator {
 			throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
 		}
 	}
-
 }
