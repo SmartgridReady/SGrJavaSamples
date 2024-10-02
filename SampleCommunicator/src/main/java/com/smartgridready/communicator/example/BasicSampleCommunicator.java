@@ -21,13 +21,13 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package com.smartgridready.communicator.example;
 
-import com.smartgridready.communicator.example.helper.MockModbusGatewayFactory;
-import com.smartgridready.communicator.common.api.GenDeviceApi;
-import com.smartgridready.communicator.common.api.SGrDeviceBuilder;
-import com.smartgridready.communicator.modbus.api.ModbusGatewayFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.smartgridready.communicator.common.api.GenDeviceApi;
+import com.smartgridready.communicator.common.api.SGrDeviceBuilder;
+import com.smartgridready.communicator.example.helper.MockModbusGatewayFactory;
+import com.smartgridready.communicator.modbus.api.ModbusGatewayFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

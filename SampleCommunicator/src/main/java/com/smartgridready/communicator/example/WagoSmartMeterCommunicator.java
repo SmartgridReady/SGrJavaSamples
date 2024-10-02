@@ -79,8 +79,8 @@ public class WagoSmartMeterCommunicator {
 			DeviceFrame tstMeter = loader.load(XML_BASE_DIR, DEVICE_DESCRIPTION_FILE_NAME, configProperties);
 
 			// initialize transport
-			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU();
-			mbRTU.initTrspService(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
+			GenDriverAPI4ModbusRTU mbRTU = new GenDriverAPI4ModbusRTU(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
+			mbRTU.connect();
 			
 			// create device instance
 			SGrModbusDevice devWagoMeter = new SGrModbusDevice(tstMeter, mbRTU);

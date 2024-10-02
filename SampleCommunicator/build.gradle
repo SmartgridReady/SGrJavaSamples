@@ -39,9 +39,9 @@ dependencies {
 
     // SGr dependencies
     implementation group: 'com.smartgridready', name: 'sgr-specification', version: '1.1.0-SNAPSHOT'
-    implementation group: 'com.smartgridready', name: 'sgr-driver-api', version: '1.1.0-SNAPSHOT'
-    implementation group: 'com.smartgridready', name: 'sgr-commhandler', version: '1.1.0-SNAPSHOT'
-    implementation group: 'com.smartgridready', name: 'easymodbus', version: '1.1.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'sgr-driver-api', version: '2.0.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'sgr-commhandler', version: '2.0.0-SNAPSHOT'
+    implementation group: 'com.smartgridready', name: 'easymodbus', version: '2.0.0-SNAPSHOT'
 
     // Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.10'
