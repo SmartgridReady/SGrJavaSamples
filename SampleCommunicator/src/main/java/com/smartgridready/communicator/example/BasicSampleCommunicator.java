@@ -1,6 +1,6 @@
 /**
 *Copyright(c) 2021 Verein SmartGridready Switzerland
-* 
+ *
 This Open Source Software is BSD 3 clause licensed:
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
@@ -83,7 +83,7 @@ public class BasicSampleCommunicator {
 			// create actual Modbus devices with serial or TCP connection.
 			//
 			Properties configProperties = new Properties();
-			configProperties.setProperty("port_name", SERIAL_PORT_NAME);
+			configProperties.setProperty("serial_port", SERIAL_PORT_NAME);
 
 			GenDeviceApi sgcpDevice = new SGrDeviceBuilder()
 				.useModbusGatewayFactory(mockModbusFactory)
@@ -123,7 +123,7 @@ public class BasicSampleCommunicator {
 		}									
 	}
 
-	private static InputStream getDeviceDescriptionFile(String fileName) throws IOException, FileNotFoundException {
+	private static InputStream getDeviceDescriptionFile(String fileName) throws IOException {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream istr = classloader.getResourceAsStream(fileName);
 		if (istr != null) {
