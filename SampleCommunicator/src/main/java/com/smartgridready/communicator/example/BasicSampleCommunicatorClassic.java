@@ -37,31 +37,32 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Properties;
 
-/** 
+
+/**
  * <p>
- * This is a sample implementation of communicator that uses the SmartGridready communication
- * handler. The communication handler uses the SmartGridready generic interface to communicate
- * with any attached device/product in a generic way. The communication handler converts the
- * generic API commands to commands understood by the external interface of the device/product.
- * <p> 
- * The command translation is done by the communication handler based on a device description
- * loaded from a device description XML file.
+ * This is a sample implementation of communicator that uses the SmartGridready communication handler. The
+ * communication handler uses the SmartGridready generic interface to communicate with any attached
+ * device/product in a generic way. The communication handler converts the generic API commands to
+ * commands understood by the external interface of the device/product.
+ * <p>
+ * The command translation is done by the communication handler based on a device description loaded from
+ * a device description XML file.
  * <p>
  * There are several communication protocols/technologies available to communicate with the device:
  * <ul>
- * 		<li>Modbus RTU</li>
- * 		<li>Modbus TCP</li>
- * 		<li>http / REST Swagger</li>
+ * <li>Modbus RTU</li>
+ * <li>Modbus TCP</li>
+ * <li>http / REST Swagger</li>
  * </ul>
- * The communicator is responsible instantiate/load the suitable driver for the attached 
- * devices/products.  
+ * The communicator is responsible instantiate/load the suitable driver for the attached devices/products.
  * <p>
- * The example shows the basic steps to set up the communicator to talk to a simple 
- * SmartGridready Modbus device and read a value from the device.
- * <p>
- * Note that this example uses the classic method to create device instances, which is deprecated.
+ * The example shows the basic steps to set up the communicator to talk to a simple SmartGridready Modbus
+ * device and read a value from the device.
  * 
- **/
+ * @deprecated Note that this example uses the classic method to create device instances, which is
+ *             deprecated.
+ */
+@Deprecated(since = "1.1.0", forRemoval = true)
 public class BasicSampleCommunicatorClassic {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BasicSampleCommunicator.class);
