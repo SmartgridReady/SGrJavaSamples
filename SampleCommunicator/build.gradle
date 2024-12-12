@@ -16,14 +16,19 @@ repositories {
 
     maven {
         url "https://nexus.library.smartgridready.ch/repository/maven-releases/"
+        mavenContent {
+            releasesOnly()
+        }
     }
     maven {
         url "https://nexus.library.smartgridready.ch/repository/maven-snapshots/"
+        mavenContent {
+            snapshotsOnly()
+        }
     }
 }
 
-sourceSets
-{
+sourceSets {
     main.java.srcDirs = ['src/main/java' ]
     main.resources.srcDirs = ['src/main/resources' ]
 }
@@ -45,7 +50,7 @@ dependencies {
 
     // Logging
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.10'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.23.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.19.0'
 
     // Use JUnit test framework
     implementation  group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.2'
