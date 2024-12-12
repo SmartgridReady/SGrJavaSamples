@@ -21,21 +21,18 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package com.smartgridready.communicator.example;
 
-import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
-import com.smartgridready.communicator.example.helper.GenDriverAPI4ModbusMock;
-import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
-import com.smartgridready.driver.api.modbus.DataBits;
-import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
-import com.smartgridready.driver.api.modbus.Parity;
-import com.smartgridready.driver.api.modbus.StopBits;
-import com.smartgridready.ns.v0.DeviceFrame;
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Properties;
+import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
+import com.smartgridready.communicator.example.helper.GenDriverAPI4ModbusMock;
+import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
+import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
+import com.smartgridready.ns.v0.DeviceFrame;
 
 
 /**
@@ -92,7 +89,7 @@ public class BasicSampleCommunicatorClassic {
 			// - GenDriverAPI4Modbus mbTCP = new GenDriverAPI4ModbusTCP("127.0.0.1", 502)
 			// - GenDriverAPI4Modbus mbRTU = new GenDriverAPI4ModbusRTU("COM1")
 			//
-			GenDriverAPI4Modbus mbRTUMock = new GenDriverAPI4ModbusMock(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
+			GenDriverAPI4Modbus mbRTUMock = new GenDriverAPI4ModbusMock(false);
 			
 			// Step 2 (Modbus RTU only):
 			// Initialise the serial COM port used by the modbus transport service.

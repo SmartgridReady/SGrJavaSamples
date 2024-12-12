@@ -1,24 +1,36 @@
+/*
+ * Copyright(c) 2024 Verein SmartGridready Switzerland
+ * 
+ * This Open Source Software is BSD 3 clause licensed:
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package com.smartgridready.communicator.example;
 
-import com.smartgridready.ns.v0.DeviceFrame;
-import com.smartgridready.driver.api.modbus.DataBits;
-import com.smartgridready.driver.api.modbus.GenDriverAPI4Modbus;
-import com.smartgridready.driver.api.modbus.Parity;
-import com.smartgridready.driver.api.modbus.StopBits;
-import com.smartgridready.communicator.common.api.values.BitmapValue;
-import com.smartgridready.communicator.common.api.values.EnumRecord;
-import com.smartgridready.communicator.common.api.values.EnumValue;
-import com.smartgridready.communicator.common.api.values.Value;
-import com.smartgridready.communicator.common.helper.DeviceDescriptionLoader;
-import com.smartgridready.communicator.example.helper.GenDriverAPI4ModbusMock;
-import com.smartgridready.communicator.modbus.impl.SGrModbusDevice;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Map;
+import com.smartgridready.communicator.common.api.GenDeviceApi;
+import com.smartgridready.communicator.common.api.SGrDeviceBuilder;
+import com.smartgridready.communicator.common.api.values.BitmapValue;
+import com.smartgridready.communicator.common.api.values.EnumValue;
+import com.smartgridready.communicator.example.helper.EidLoader;
+import com.smartgridready.communicator.example.helper.MockModbusClientFactory;
+import com.smartgridready.communicator.rest.exception.RestApiAuthenticationException;
+import com.smartgridready.driver.api.common.GenDriverException;
 
 /**
  * This class provides examples on how to handle enumerations and bitmaps,
@@ -36,25 +48,42 @@ public class EnumAndBitmapSampleCommunicator {
     private static final String HEAT_PUMP_OP_STATE = "HPOpState";
 
     private static final String DEVICE_DESCRIPTION_FILE_NAME = "SampleExternalInterfaceFile.xml";
-    private static final String SERIAL_PORT_NAME = "COM3";
 
-    public static void main(String[] argv) {
+    public static void main(String[] argv)
+    {
+        // Use the SGrDeviceBuilder class to load the device description (EID) from
+        // an XML file, input stream or text content.
+        // Create the SGr device instance by calling build().
+        //
+        // This example uses a mocked Modbus driver factory to create the driver instance.
+        // You may change the factory implementation or just use the default, in order to
+        // create actual Modbus devices with serial or TCP connection.
+        //
+        GenDeviceApi sgcpDevice;
 
-        try {
-            // Prepare the communication handler (SGrModbusDevice) for usage:
-            // See 'BasicSampleCommunicator' for details.
-
-            // load device description
-            String deviceDescFilePath = getDeviceDescriptionFilePath();
-            DeviceDescriptionLoader loader = new DeviceDescriptionLoader();
-            DeviceFrame sgcpMeter = loader.load("", deviceDescFilePath);
-
-            // initialize transport
-            GenDriverAPI4Modbus mbRTUMock = createMockModbusDriver(SERIAL_PORT_NAME, 9600, Parity.EVEN, DataBits.EIGHT, StopBits.ONE);
-            mbRTUMock.connect();
-
-            // create device instance
-            SGrModbusDevice sgcpDevice = new SGrModbusDevice(sgcpMeter, mbRTUMock);
+        try
+        {
+            sgcpDevice = new SGrDeviceBuilder()
+                // mandatory: inject device description (EID)
+                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                // optional: inject the ModbusFactory mock
+                .useModbusClientFactory(new MockModbusClientFactory(true))
+                .build();
+        }
+        catch ( GenDriverException | RestApiAuthenticationException | IOException e )
+        {
+            LOG.error("Error loading device description. ", e);
+            return;
+        }
+        
+        try
+        {
+            // Connect the device instance. Initializes the attached transport.
+            // In case of Modbus RTU this initializes the COM port.
+            // In case of Modbus TCP this initializes the TCP connection.
+            // In case of messaging this connects to the MQTT broker.
+            //
+            sgcpDevice.connect();
 
             // Now we can write set status commands using enum and bitmap values.
 
@@ -69,13 +98,13 @@ public class EnumAndBitmapSampleCommunicator {
             LOG.info("Did set HPOpModeCmd to 'WP_DOM_WATER_OP'");
 
             // To read back an enum value use getVal(...).getEnum() which returns an enum record.
-            EnumRecord opState = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD).getEnum();
+            final var opState = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD).getEnum();
             LOG.info("OP-State literal={}", opState.getLiteral());
             LOG.info("OP-State ordinal={}", opState.getOrdinal());
             LOG.info("OP-State description={}", opState.getDescription());
 
             // You can also use Value.getString() and Value.toString()
-            Value opStateVal = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD);
+            final var  opStateVal = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_CMD);
             LOG.info("OP-State EnumValue.getString() = {}", opStateVal.getString());
             LOG.info("OP-State EnumValue.toString() = {}", opStateVal);
 
@@ -84,7 +113,7 @@ public class EnumAndBitmapSampleCommunicator {
             // The next command reads the heat pump operation state. Within the EI-XML, the operation state is defined as bitmap.
             // Use getVel(...).getBitmap() to read bitmaps from the device. The result is a Map that contains the literals of all
             // bits in the bitmap and an according boolean value whether the bit is set or not.
-            Map<String, Boolean> bitmap = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_STATE).getBitmap();
+            final var bitmap = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_STATE).getBitmap();
             LOG.info("OP-State bitmap values read:");
             bitmap.forEach((literal, isBitSet) -> LOG.info("\t{} = {}", literal, isBitSet));
 
@@ -99,31 +128,29 @@ public class EnumAndBitmapSampleCommunicator {
             sgcpDevice.setVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_STATE, BitmapValue.of(bitmap));
 
             // You can also use Value.getString() and Value.toString() to determine the status of the bitmap:
-            Value bitmapValue = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_STATE);
+            final var  bitmapValue = sgcpDevice.getVal(HEAT_PUMP_BASE_PROFILE, HEAT_PUMP_OP_STATE);
             LOG.info("OP-State BitmapValue.getString() = {}", bitmapValue.getString());
             LOG.info("OP-State BitmapValue.toString() = {}", bitmapValue);
-
-            // close transport
-            mbRTUMock.disconnect();
-        } catch (Exception e) {
-            LOG.error("Error running EnumAndBitmapSampleCommunicator: {}", e.getMessage());
         }
-    }
-
-
-    static String getDeviceDescriptionFilePath() throws FileNotFoundException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        URL deviceDesc = classloader.getResource(DEVICE_DESCRIPTION_FILE_NAME);
-        if (deviceDesc != null && deviceDesc.getPath() != null) {
-            return deviceDesc.getPath();
-        } else {
-            throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
+        catch (Exception e)
+        {
+            LOG.error("Error accessing device. ", e);
         }
-    }
-
-    static GenDriverAPI4Modbus createMockModbusDriver(String comPort, int baudRate, Parity parity, DataBits dataBits, StopBits stopBits) {
-        GenDriverAPI4ModbusMock mbRTUMock = new GenDriverAPI4ModbusMock(comPort, baudRate, parity, dataBits, stopBits);
-        mbRTUMock.setIsIntegerType(true);
-        return mbRTUMock;
+        finally
+        {
+            // Disconnect from device instance. Closes the attached transport.
+            if (sgcpDevice.isConnected())
+            {
+                try
+                {
+                    LOG.info("Disconnecting ...");
+                    sgcpDevice.disconnect();
+                }
+                catch ( GenDriverException e )
+                {
+                    LOG.error("Error disconnecting device.", e);
+                }
+            }
+        }
     }
 }
