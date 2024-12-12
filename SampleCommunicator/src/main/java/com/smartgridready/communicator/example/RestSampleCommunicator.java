@@ -18,9 +18,7 @@
 
 package com.smartgridready.communicator.example;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -34,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import com.smartgridready.communicator.common.api.GenDeviceApi;
 import com.smartgridready.communicator.common.api.SGrDeviceBuilder;
 import com.smartgridready.communicator.common.api.values.Float64Value;
+import com.smartgridready.communicator.example.helper.EidLoader;
 import com.smartgridready.communicator.rest.exception.RestApiAuthenticationException;
 import com.smartgridready.driver.api.common.GenDriverException;
 import com.smartgridready.driver.api.http.GenHttpClientFactory;
@@ -96,7 +95,7 @@ public class RestSampleCommunicator
             // Create the SGr device instance by calling build().
             sgcpDevice = new SGrDeviceBuilder()
                 // mandatory: inject device description (EID)
-                .eid(getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
                 // optional: inject the configuration according to the used EID (in this case required)
                 .properties(configProperties)
                 // optional: inject the REST mock (only for this example)
@@ -155,27 +154,6 @@ public class RestSampleCommunicator
         }
     }
 
-    /**
-     * Reads the EID with the given {@code fileName}.
-     * 
-     * @param fileName
-     *        name of EID-XML file to read
-     * @return {InputStream} to file
-     * @throws FileNotFoundException
-     *         if no EID-XML file with the given {@code fileName} exists
-     */
-    private static InputStream getDeviceDescriptionFile(String fileName) throws FileNotFoundException
-    {
-        final var classloader = Thread.currentThread().getContextClassLoader();
-        final var istr = classloader.getResourceAsStream(fileName);
-        
-        if (istr == null)
-        {
-            throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
-        }
-
-        return istr;
-    }
 }
 
 
@@ -330,4 +308,5 @@ class RestClientFactory implements GenHttpClientFactory
         }
         
     }
+
 }

@@ -21,9 +21,7 @@ check for "EI-Modbus" and "Generic" directories in our Namespace http://www.smar
 */
 package com.smartgridready.communicator.example;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -38,6 +36,7 @@ import com.smartgridready.communicator.common.api.dto.DataPointValue;
 import com.smartgridready.communicator.common.api.dto.DeviceInfo;
 import com.smartgridready.communicator.common.api.dto.FunctionalProfile;
 import com.smartgridready.communicator.common.api.dto.GenericAttribute;
+import com.smartgridready.communicator.example.helper.EidLoader;
 import com.smartgridready.communicator.example.helper.MockModbusClientFactory;
 import com.smartgridready.communicator.rest.exception.RestApiAuthenticationException;
 import com.smartgridready.driver.api.common.GenDriverException;
@@ -90,7 +89,7 @@ public class BasicSampleCommunicator {
 		// You may change the factory implementation or just use the default, in order to
 		// create actual Modbus devices with serial or TCP connection.
 		//
-		Properties configProperties = new Properties();
+		final var configProperties = new Properties();
 		configProperties.setProperty("serial_port", SERIAL_PORT_NAME);
 
 		GenDeviceApi sgcpDevice;
@@ -99,7 +98,7 @@ public class BasicSampleCommunicator {
         {
             sgcpDevice = new SGrDeviceBuilder()
                 // mandatory: inject device description (EID)
-                .eid(getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
                 // optional: inject the ModbusFactory mock
             	.useModbusClientFactory(mockModbusFactory)
 //            	.useSharedModbusRtu(true)
@@ -131,44 +130,44 @@ public class BasicSampleCommunicator {
 			// Hint: You can only read values for functional profiles and datapoints that exist
 			// in the device description (EID).
 			//
-			var val1 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL1").getFloat32();
-			var val2 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL2").getFloat32();
-			var val3 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL3").getFloat32();
-			var log = String.format("Wago-Meter, %s: L1=%.2fV, L2=%.2fV, L3=%.2fV", PROFILE_VOLTAGE_AC, val1, val2, val3);
+			final var val1 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL1").getFloat32();
+			final var val2 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL2").getFloat32();
+			final var val3 = sgcpDevice.getVal(PROFILE_VOLTAGE_AC, "VoltageL3").getFloat32();
+			final var log = String.format("Wago-Meter, %s: L1=%.2fV, L2=%.2fV, L3=%.2fV", PROFILE_VOLTAGE_AC, val1, val2, val3);
 			LOG.info(log);
 			
-			var val4 = sgcpDevice.getVal("CurrentDirection", "CurrentDirL1");
-            var log2 = String.format("Wago-Meter, %s: L1=%s", "CurrentDirection", val4.getString());
+			final var val4 = sgcpDevice.getVal("CurrentDirection", "CurrentDirL1");
+			final var log2 = String.format("Wago-Meter, %s: L1=%s", "CurrentDirection", val4.getString());
             LOG.info(log2);
 			
 			// REMARK: An example for setVal() you find in EnumAndBitmapSampleCommunicator
 
             // Read all values from the device.
-            var values = sgcpDevice.getValues();
+            final var values = sgcpDevice.getValues();
             LOG.info(valsToString(values));
             
             // Get device info
-            var deviceInfo = sgcpDevice.getDeviceInfo();
+            final var deviceInfo = sgcpDevice.getDeviceInfo();
             LOG.info(diToString(deviceInfo));
 
             // Or simply just the device configuration info.
-            var configurationInfo = sgcpDevice.getDeviceConfigurationInfo();
+            final var configurationInfo = sgcpDevice.getDeviceConfigurationInfo();
             LOG.info("DeviceConfigurationInfo:" + ciToString(configurationInfo, 1));
             
             // Or just the functional profiles.
-            var functionalProfiles = sgcpDevice.getFunctionalProfiles();
+            final var functionalProfiles = sgcpDevice.getFunctionalProfiles();
             LOG.info("FunctionalProfiles:" + fpsToString(functionalProfiles, 1, true));
             
             // Get a specific functional profile.
-            var functionalProfile = sgcpDevice.getFunctionalProfile(functionalProfiles.get(0).getName());
+            final var functionalProfile = sgcpDevice.getFunctionalProfile(functionalProfiles.get(0).getName());
             LOG.info("FunctionalProfile:" + fpToString(functionalProfile, 1, false));
             
             // Get data points of a specific functional profile.
-            var dataPoints = sgcpDevice.getDataPoints(functionalProfile.getName());
+            final var dataPoints = sgcpDevice.getDataPoints(functionalProfile.getName());
             LOG.info("DataPoints:" + dpsToString(dataPoints, 1, true));
             
             // Get a specific data point of a specific functional profile.
-            var dataPoint = sgcpDevice.getDataPoint(functionalProfile.getName(), dataPoints.get(0).getName());
+            final var dataPoint = sgcpDevice.getDataPoint(functionalProfile.getName(), dataPoints.get(0).getName());
             LOG.info("DataPoint:" + dpToString(dataPoint, 1, false));
 		}
 		catch (Exception e)
@@ -316,6 +315,7 @@ public class BasicSampleCommunicator {
             sb.append("\n" + tabs + "genericAttributes:     " + gaToString(dp.getGenericAttributes(), numOfTabs + 1));
             sb.append("\n" + tabs + "---");
         }
+        
         return sb.toString();
     }
     
@@ -331,13 +331,4 @@ public class BasicSampleCommunicator {
         return sb.toString();
     }
     
-	private static InputStream getDeviceDescriptionFile(String fileName) throws IOException {
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream istr = classloader.getResourceAsStream(fileName);
-		if (istr != null) {
-			return istr;
-		}
-
-		throw new FileNotFoundException("Unable to load device description file: " + DEVICE_DESCRIPTION_FILE_NAME);
-	}
 }
