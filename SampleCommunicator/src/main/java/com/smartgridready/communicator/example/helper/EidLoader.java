@@ -29,7 +29,7 @@ public final class EidLoader
 {
 
     /**
-     * Reads the EID with the given {@code fileName}.
+     * Returns an {@code InputStream} to the EID-XML file with the given {@code fileName}.
      * 
      * @param fileName
      *        name of EID-XML file to read
@@ -37,7 +37,8 @@ public final class EidLoader
      * @throws FileNotFoundException
      *         if no EID-XML file with the given {@code fileName} exists
      */
-    public static InputStream getDeviceDescriptionFile(String fileName) throws IOException {
+    public static InputStream getDeviceDescriptionInputStream(String fileName) throws IOException
+    {
         final var classloader = Thread.currentThread().getContextClassLoader();
         final var istr = classloader.getResourceAsStream(fileName);
         

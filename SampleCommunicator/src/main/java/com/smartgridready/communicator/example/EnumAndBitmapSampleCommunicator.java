@@ -39,8 +39,8 @@ import com.smartgridready.driver.api.common.GenDriverException;
  * The program uses a mocked modbus driver and can be run without an attached device/product.
  * All configuration parameters of the EID are hard-coded, therefore no configuration properties need to be set.
  */
-public class EnumAndBitmapSampleCommunicator {
-
+public class EnumAndBitmapSampleCommunicator
+{
     private static final Logger LOG = LoggerFactory.getLogger(EnumAndBitmapSampleCommunicator.class);
 
     private static final String HEAT_PUMP_BASE_PROFILE = "HeatPumpBase";
@@ -65,7 +65,7 @@ public class EnumAndBitmapSampleCommunicator {
         {
             sgcpDevice = new SGrDeviceBuilder()
                 // mandatory: inject device description (EID)
-                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                .eid(EidLoader.getDeviceDescriptionInputStream(DEVICE_DESCRIPTION_FILE_NAME))
                 // optional: inject the ModbusFactory mock
                 .useModbusClientFactory(new MockModbusClientFactory(true))
                 .build();

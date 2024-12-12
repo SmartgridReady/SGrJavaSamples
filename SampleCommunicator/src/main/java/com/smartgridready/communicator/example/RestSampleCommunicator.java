@@ -95,7 +95,7 @@ public class RestSampleCommunicator
             // Create the SGr device instance by calling build().
             sgcpDevice = new SGrDeviceBuilder()
                 // mandatory: inject device description (EID)
-                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                .eid(EidLoader.getDeviceDescriptionInputStream(DEVICE_DESCRIPTION_FILE_NAME))
                 // optional: inject the configuration according to the used EID (in this case required)
                 .properties(configProperties)
                 // optional: inject the REST mock (only for this example)
@@ -200,10 +200,8 @@ class RestClientFactory implements GenHttpClientFactory
             // this device sends always all parameters
             var response = 
                     MessageFormat.format(
-                            "'{'"
-                          + "\"tmp\"      : '{' \"value\" : {0} '}',"
-                          + "\"target_t\" : '{' \"value\" : {1} '}'"
-                          + "'}'",
+                            "'{' \"tmp\"      : '{' \"value\" : {0} '}', "
+                              + "\"target_t\" : '{' \"value\" : {1} '}' '}'",
                             lastSetTargetTemperature, lastSetTargetTemperature);
             return GenHttpResponse.of(response);
         }

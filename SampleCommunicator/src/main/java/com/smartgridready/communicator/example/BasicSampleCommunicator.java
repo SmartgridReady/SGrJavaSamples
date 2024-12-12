@@ -62,16 +62,16 @@ import com.smartgridready.driver.api.common.GenDriverException;
  * <p>
  * The example also uses the recommended <b>new</b> SGrDeviceBuilder method.
  */
-public class BasicSampleCommunicator {
-
+public class BasicSampleCommunicator
+{
 	private static final Logger LOG = LoggerFactory.getLogger(BasicSampleCommunicator.class);
 
 	private static final String PROFILE_VOLTAGE_AC = "VoltageAC";
 	private static final String DEVICE_DESCRIPTION_FILE_NAME = "SGr_04_0014_0000_WAGO_SmartMeterV0.2.1.xml";
 	private static final String SERIAL_PORT_NAME = "COM3";
 
-	public static void main(String[] argv) {
-		
+	public static void main(String[] argv)
+	{
 		// Step 1: 
 		// Use the SGrDeviceBuilder class to load the device description (EID) from
 		// an XML file, input stream or text content.
@@ -91,7 +91,7 @@ public class BasicSampleCommunicator {
         {
             sgcpDevice = new SGrDeviceBuilder()
                 // mandatory: inject device description (EID)
-                .eid(EidLoader.getDeviceDescriptionFile(DEVICE_DESCRIPTION_FILE_NAME))
+                .eid(EidLoader.getDeviceDescriptionInputStream(DEVICE_DESCRIPTION_FILE_NAME))
                 // optional: inject the ModbusFactory mock
             	.useModbusClientFactory(new MockModbusClientFactory(false))
             	// optional: inject the configuration
