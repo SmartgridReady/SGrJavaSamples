@@ -39,7 +39,7 @@ Rem: The folder [your-local-project-folder]/SampleCommunicator/src/main/resource
 <table valign="top">
     <tr>
         <td><b>Implementor:</b></td>
-        <td><p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Communicator Provider (3rd Party)</p></td>
+        <td><p>Communicator Provider (3rd Party)</p></td>
     </tr>
     <tr>
         <td><b>Description:</b></td>
