@@ -15,7 +15,6 @@ SGr-JavaSamples provides sample projects that demonstrate the use of the SGr Com
 ## Installation
 
 ### Requirements / Prerequisites
-- Gradle version >= 8.11.1. Note: If no IDE with Gradle integration is used, Gradle must first be installed locally: https://gradle.org/install/
 - Java JDK version >= Java 11
 
 ### Clone
@@ -26,8 +25,8 @@ Rem: The folder [your-local-project-folder]/SampleCommunicator/src/main/resource
 
 ### Build
 - Open the [your-local-project-folder]/SampleCommunicator with your IDE.
-- Run gradle 'build' target in your IDE 
-- You can also run Gradle from the command line. Change to the directory [your-local-project-folder]/SampleCommunicator and run: `gradle clean build`
+- Run the Gradle 'build' target in your IDE 
+- You can also run Gradle from the command line. Change to the directory [your-local-project-folder]/SampleCommunicator and run: `gradlew clean build`
 
 
 ## Architecture
@@ -40,7 +39,7 @@ Rem: The folder [your-local-project-folder]/SampleCommunicator/src/main/resource
 <table valign="top">
     <tr>
         <td><b>Implementor:</b></td>
-        <td><p>Communicator Provider (3rd Party)</p></td>
+        <td><p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Communicator Provider (3rd Party)</p></td>
     </tr>
     <tr>
         <td><b>Description:</b></td>
